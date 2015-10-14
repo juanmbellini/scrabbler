@@ -27,6 +27,10 @@ public class Board {
 		return result;
 	}
 	
+	public boolean isSurrounded(int x, int y){
+		return spaces[y][x-1]==' ' && spaces[y][x+1]==' ' && spaces[y-1][x]==' ' && spaces[y + 1][x]==' ';
+	}
+	
 	public boolean isValidMove() {
 		//TODO
 		return false;
