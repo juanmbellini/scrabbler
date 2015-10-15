@@ -23,10 +23,11 @@ public class FileProcessor {
             String line;
             while((line = r.readLine()) != null) {
                 result.add(line.toUpperCase());
+                //TODO ignore non-ASCII words
             }
         }
         finally {
-            if(r != null) r.close();
+        	if(r != null) r.close();
         }
         return result;
 	}
