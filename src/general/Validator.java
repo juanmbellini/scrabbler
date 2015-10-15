@@ -67,6 +67,24 @@ public class Validator {
 		}
 		return true;		
 	}
+
+	public static boolean hasWord(String word, int[] letters) {
+		//TODO se podria mejorar el codigo y ser mas eficiente, ya ponerlas en el tablero
+		int i=0;
+		for(i=0; i < word.length() && letters[(int)(word.charAt(i)-'A')] >=1; i++){
+			letters[(int)(word.charAt(i)-'A')]--;
+		}
+		if(i == word.length()){
+			for(i=0; i < word.length() ; i++){
+				letters[(int)(word.charAt(i)-'A')]++;
+			}
+			return true;
+		}
+		for(; i >= 0 ; i--){
+			letters[(int)(word.charAt(i)-'A')]++;
+		}
+		return false;
+	}
 	
 	
 	
