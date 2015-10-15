@@ -1,7 +1,7 @@
 package general;
 import java.util.Iterator;
 
-public class PossibleWordsIterator<String> implements Iterator<String>{
+public class PossibleWordsIterator implements Iterator<String>{
 
 	Iterator<String> iteratorDictionary;
 	
