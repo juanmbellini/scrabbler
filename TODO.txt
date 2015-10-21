@@ -1,0 +1,3 @@
+-OJO con la simetría -- no hace falta probar hacer vertical y horizontal, son
+	simétricos y el tablero es cuadrado
+	--Demostrar?

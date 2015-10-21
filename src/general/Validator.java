@@ -5,14 +5,13 @@ import java.util.Set;
 import general.Board.Direction;
 
 public class Validator {
+	private static Set<String> dictionary;
 	
-	private Set<String> dictionary;
-	
-	public Validator(Set<String> dictionary){
-		this.dictionary=dictionary;
+	public static void setDictionary(Set<String> dictionary) {
+		Validator.dictionary = dictionary;
 	}
 	
-	public boolean wordExists(String word){
+	public static boolean wordExists(String word){
 		if(word.length()<=1 || word.length()>=8){
 			return false;
 		}
@@ -20,9 +19,9 @@ public class Validator {
 	}
 	
 	/*revisa si poner una palabra ahi es valido o no....	REVISARRRRR  REPITE CODIGOOO*/
-	public boolean validateMovement(int x, int y, String word, char[][] spaces, Board.Direction dir){
+	public static boolean isValidMovement(int x, int y, String word, char[][] spaces, Board.Direction dir){
 		//TODO REVISAR BIEN T O D O repite codigo y capaz no anda bien
-		if(x < 0 || y < 0){	//si la estoy copiando desde afuera
+		if(dictionary == null || x < 0 || y < 0){	//si la estoy copiando desde afuera
 			return false;
 		}
 		if(dir == Direction.DOWN){
@@ -85,8 +84,4 @@ public class Validator {
 		}
 		return false;
 	}
-	
-	
-	
-	
 }

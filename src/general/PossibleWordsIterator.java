@@ -31,7 +31,6 @@ public class PossibleWordsIterator implements Iterator<String>{
 
 	public void remove() {
 		iteratorDictionary.remove();
-		
 	}
 
 }
