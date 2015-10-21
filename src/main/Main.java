@@ -25,7 +25,7 @@ public class Main {
 		
 		Board b = new Board();
 		b.placeWord("CASA", 5, 0, Direction.DOWN);
-		b.placeWord("TABLA", 2, 3, Direction.RIGHT);
+		b.placeWord("TABLA", 4, 3, Direction.RIGHT);
 		v.print(b.toPrettyString());
 	}
 

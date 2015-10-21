@@ -1,5 +1,13 @@
 package gui;
 
+import java.awt.Font;
+import java.awt.FontFormatException;
+import java.awt.GraphicsEnvironment;
+import java.io.File;
+import java.io.IOException;
+
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextPane;
@@ -12,20 +20,27 @@ public class Scroller extends JPanel {
 	private static final int WIDTH = StateVisualizer.WIDTH, HEIGHT = StateVisualizer.HEIGHT-30;
 	private JScrollPane sp;
 	private JTextPane tp;
+	private Font font;
 	private Document doc;
 	
-	public Scroller() {
+	public Scroller() throws FontFormatException, IOException {
 		init();
 	}
 	
-	private void init() {
+	private void init() throws FontFormatException, IOException {
 		this.setSize(WIDTH, HEIGHT);
 		this.setLayout(null);
 		
+		//Load monospace font so everything is aligned
+		font = Font.createFont(Font.TRUETYPE_FONT, new File("res/SourceCodePro-Regular.ttf"));
+        font = font.deriveFont(Font.PLAIN, 12);
+        GraphicsEnvironment.getLocalGraphicsEnvironment().registerFont(font);
+
 		tp = new JTextPane();
 		tp.setText("Visualizer ready!\n\n");
 		tp.setEditable(false);
 		tp.setSize(WIDTH, HEIGHT);
+		tp.setFont(font);
 		doc = tp.getDocument();
 		
 		sp = new JScrollPane(tp);

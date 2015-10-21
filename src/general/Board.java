@@ -138,7 +138,7 @@ public class Board implements Comparable<Board> {
 		result.append("---------------\n");
 		for(char[] row : spaces) {
 			for(char column : row) {
-				result.append(column+"  ");
+				result.append(column);
 			}
 			result.append("\n");
 		}

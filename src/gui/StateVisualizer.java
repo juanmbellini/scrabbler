@@ -1,5 +1,8 @@
 package gui;
 
+import java.awt.FontFormatException;
+import java.io.IOException;
+
 import javax.swing.JFrame;
 
 public class StateVisualizer {
@@ -16,7 +19,12 @@ public class StateVisualizer {
 		frame.setLocationRelativeTo(null);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
-		s = new Scroller();
+		try {
+			s = new Scroller();
+		} catch (FontFormatException | IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		frame.add(s);
 		frame.setVisible(true);
 	}
