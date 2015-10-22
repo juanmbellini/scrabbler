@@ -6,8 +6,6 @@ import java.awt.GraphicsEnvironment;
 import java.io.File;
 import java.io.IOException;
 
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextPane;
@@ -54,9 +52,10 @@ public class Scroller extends JPanel {
 	public void print(String message) {
 		try {
 			doc.insertString(doc.getLength(), message, null);
+			tp.setCaretPosition(doc.getLength());	//Scroll to bottom
 		}
 		catch (BadLocationException e) {
-			// TODO Auto-generated catch block
+			// TODO Handle errors
 			e.printStackTrace();
 		}
 	}

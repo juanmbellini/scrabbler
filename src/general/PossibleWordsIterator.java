@@ -14,10 +14,10 @@ public class PossibleWordsIterator implements Iterator<String>{
 
 	public boolean hasNext() {
 		while(iteratorDictionary.hasNext()){
-			current = iteratorDictionary.next();
+			String current = iteratorDictionary.next();
 			for(int i=0; i < current.length(); i++){
 				if(Validator.hasWord(current, letters)){
-					this.current = current;	//TODO esta línea no hace nada, revisar
+					this.current = current;
 					return true;
 				}
 			}
