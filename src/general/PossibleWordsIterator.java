@@ -1,11 +1,11 @@
 package general;
 import java.util.Iterator;
-
+/*funciona perfecto, testeado*/
 public class PossibleWordsIterator implements Iterator<String>{
 
-	Iterator<String> iteratorDictionary;
-	int[] letters;
-	String current;
+	private Iterator<String> iteratorDictionary;
+	private int[] letters;
+	private String current;
 	
 	public PossibleWordsIterator(Iterator<String> iteratorDictionary, int[] letters){
 		this.iteratorDictionary = iteratorDictionary;
@@ -14,13 +14,11 @@ public class PossibleWordsIterator implements Iterator<String>{
 
 	public boolean hasNext() {
 		while(iteratorDictionary.hasNext()){
-			current = iteratorDictionary.next();
-			for(int i=0; i < current.length(); i++){
+			String current = iteratorDictionary.next();
 				if(Validator.hasWord(current, letters)){
 					this.current = current;	//TODO esta línea no hace nada, revisar
 					return true;
 				}
-			}
 		}
 		return false;
 	}
