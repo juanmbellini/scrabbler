@@ -6,12 +6,14 @@ import java.io.IOException;
 import javax.swing.JFrame;
 
 public class StateVisualizer {
-	public static final int WIDTH = 500, HEIGHT = 500;
+	public static final int WIDTH = 250, HEIGHT = 500;	//TODO decide on a value, diifferent monitors show up different
 	private static final String TITLE = "Visualizer";
 	private JFrame frame;
 	private Scroller s;
 
-	public StateVisualizer() {}
+	public StateVisualizer() {
+		initialize();
+	}
 
 	public void initialize() {
 		frame = new JFrame(TITLE);

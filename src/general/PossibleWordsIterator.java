@@ -16,7 +16,7 @@ public class PossibleWordsIterator implements Iterator<String>{
 		while(iteratorDictionary.hasNext()){
 			String current = iteratorDictionary.next();
 				if(Validator.hasWord(current, letters)){
-					this.current = current;	//TODO esta línea no hace nada, revisar
+					this.current = current;
 					return true;
 				}
 		}
