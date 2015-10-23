@@ -16,7 +16,16 @@ import general.Validator;
 public class Helper {
 
 	public static Set<Move> getPossibleMoves(BoardState b, Set<String> dictionary) {
+		boolean flag = true;
 		Set<Move> result = new HashSet<>();	//TODO order by score?
+		for(int i=0; i<b.getRemainingLetters().length && flag;i++){
+			if(b.getRemainingLetters()[i]!=0){
+				flag=false;
+			}
+		}
+		if(flag == true){
+			return result;
+		}
 		char[][] spaces = b.getSpaces();
 		int[] remainingLetters = b.getRemainingLetters();
 		for (int y = 0; y < spaces.length; y++) {
