@@ -154,10 +154,8 @@ public class BoardState implements Comparable<BoardState> {
 	 * of the specified slot.
 	 */
 	public boolean isSurrounded(int x, int y) {
-		return (x == 0 || isOccupied(x-1, y))
-				&& (x == SIZE-1 || isOccupied(x+1, y))
-				&& (y == 0 || isOccupied(x, y-1))
-				&& (y == SIZE-1 || isOccupied(x, y+1));
+		return (isOccupied(x-1, y)|| isOccupied(x+1, y))
+				&& (isOccupied(x, y-1) || isOccupied(x, y+1));
 	}
 	
 	/**

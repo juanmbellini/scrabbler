@@ -68,7 +68,7 @@ public class Helper {
 		//In which direction can the new word go? Assume down, change if necessary
 		//TODO verify direction choice
 		Direction dir = Direction.DOWN;
-		if(b.isOccupied(x, y-1) || b.isOccupied(x, y+1)) {
+		if(b.isOccupied(x, y-1) || b.isOccupied(x, y+1) || (y + 1 >= BoardState.SIZE) ) {
 			dir = Direction.RIGHT;
 		}
 		while(w.hasNext()) {
