@@ -5,13 +5,15 @@ package general;
  * or letters.  Can perform certain logic on specific slots to help decide whether
  * a move is valid or not. 
  */
-public class BoardState implements Comparable<BoardState> {
+public class BoardState {
 	public static final int[] LETTER_POINTS = {1, 3, 3, 2, 1, 4, 2, 4, 1, 8, 5, 1, 3, 1, 1, 3, 10, 1, 1, 1, 1, 4, 4, 8, 4, 10}; 
 	public static enum Direction {DOWN, RIGHT};
 	public static final int SIZE = 15;	//Square board
 	private char[][] spaces;
 	private int[] remainingLetters;
 	int score;
+	
+	//TODO mencionar en informe que sacamos Comparable porque no era consistente con Equals
 
 	/**
 	 * Creates a new board and marks all its slots as empty.
@@ -255,13 +257,5 @@ public class BoardState implements Comparable<BoardState> {
 		}
 		BoardState other = (BoardState) obj;
 		return this.toString().equals(other.toString());
-	}
-
-	/**
-	 * Scores with lower scores are considered smaller.
-	 */
-	@Override
-	public int compareTo(BoardState o) {
-		return Integer.compare(score, o.score);
 	}
 }
