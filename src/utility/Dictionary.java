@@ -67,6 +67,11 @@ public class Dictionary {
 	 * @return <code>true</code> if the dictionary contained the word, or <code>false</code> if not
 	 */
 	public boolean hasWord(String word) {
+		
+		if(word.length() > 7) {
+			return false;
+		}
+		
 		char [] aux = word.toUpperCase().toCharArray();
 		return hasWord(aux, 0, root);
 	}
