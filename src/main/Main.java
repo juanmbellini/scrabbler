@@ -21,7 +21,7 @@ public class Main {
 		dictionary.add("QUESO");
 		Validator.setDictionary(dictionary);
 		
-		int[] letters = new int[] {3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3};
+		int[] letters = new int[] {4, 1, 2, 3, 1, 0, 0, 0, 0, 2, 3, 3, 3, 3, 0, 3, 0, 3, 3, 3, 0, 0, 0, 0, 0, 0};
 		Solver solver = new Solver(dictionary);
 		System.out.println(solver.backTracking(dictionary,letters));
 		

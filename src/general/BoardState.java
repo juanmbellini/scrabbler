@@ -134,7 +134,7 @@ public class BoardState implements Comparable<BoardState> {
 	 */
 	private void removeWord(String word, int x, int y, Direction dir) {
 		int charsToRemove = word.length();
-		for(; charsToRemove >= 0; charsToRemove--) {
+		for(; charsToRemove > 0; charsToRemove--) {
 			if(!hasAdjacentLetters(x, y)) {
 				char c = spaces[y][x];
 				remainingLetters[c-'A']++;

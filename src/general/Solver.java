@@ -30,6 +30,8 @@ public class Solver {
 	public char[][] getBestAnswer() {
 		return bestAnswer;
 	}
+	
+	
 	public BoardState backTracking(Set<String> dictionary, int[] letters){
 		BoardState board = new BoardState(letters);
 		this.dictionary = dictionary;
