@@ -1,6 +1,8 @@
 package test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -10,6 +12,7 @@ import java.util.Set;
 
 import org.junit.Test;
 
+import general.BoardState;
 import io.FileProcessor;
 
 public class FileProcessorTester {
@@ -47,6 +50,19 @@ public class FileProcessorTester {
 			}
 			deleteFile(LETTERS_FILE);
 			assertTrue("More than 80 letters were assigned", sum <= 80);
+		} catch (IOException e) {
+			fail("I/O error: " + e.getMessage());
+		}
+	}
+	
+	@Test
+	public void testWriteOutputFile() {
+		try {			
+			int[] letters = {3, 1, 1, 4, 0, 0, 0, 0, 4, 3, 7, 1, 1, 1, 2, 4, 1, 1, 2, 1, 1, 2, 1, 1, 1, 5};
+			FileProcessor.writeOutputFile(new BoardState(letters), "testOutput.txt");
+			assertTrue("Output file not created", new File("testOutput.txt").exists());
+			//TODO test printed board is empty?
+			deleteFile("testOutput.txt");
 		} catch (IOException e) {
 			fail("I/O error: " + e.getMessage());
 		}

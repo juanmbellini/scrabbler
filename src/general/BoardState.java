@@ -11,7 +11,7 @@ public class BoardState {
 	public static final int SIZE = 15;	//Square board
 	private char[][] spaces;
 	private int[] remainingLetters;
-	int score;
+	private int score;
 	
 	//TODO mencionar en informe que sacamos Comparable porque no era consistente con Equals
 
@@ -51,26 +51,6 @@ public class BoardState {
 	}
 	
 	/**
-	 * Calculates the score of this board in its current state as per the rules
-	 * defined in the game.
-	 * 
-	 * @deprecated DO NOT USE. When words are added the score is automatically
-	 * recalculated. Left only in case we decide it's a better idea to use.
-	 * @return The sum of the points of all letters currently on this board.
-	 */
-	public int calculateScore() {
-		int result = 0;
-		for(char[] row : spaces) {
-			for(char c : row) {
-				if(c != ' ') {
-					result += LETTER_POINTS[c-'A'];
-				}
-			}
-		}
-		return result;
-	}
-	
-	/**
 	 * Carries out the specified move, if valid, storing information about the current
 	 * state (see {@link #prepareMove(Move)}), before updating it.
 	 * <br />
@@ -104,11 +84,11 @@ public class BoardState {
 	 * @return {@code true} If the undoing was completed successfully, {@code false}
 	 * otherwise.
 	 */
-	public boolean undoMove(Move m) {
+	public void undoMove(Move m) {
 		placeWord(m.getPreviousState(), m.getX(), m.getY(), m.getDirection());
 		score -= m.getScore();
 		putLetters(m.getAddedLetters());
-		return true;
+		//return true; TODO what if the move being undone is not the last that was made?
 	}
 	
 	/**
@@ -137,13 +117,6 @@ public class BoardState {
 	 * 
 	 * @param word The word whose letters to analyze and remove.
 	 */
-<<<<<<< HEAD
-	private void removeWord(String word, int x, int y, Direction dir) {
-		int charsToRemove = word.length();
-		for(; charsToRemove > 0; charsToRemove--) {
-			if(!hasAdjacentLetters(x, y)) {
-				char c = spaces[y][x];
-=======
 	private void takeLetters(char[] word) {
 		for(char c : word) {
 			if(c >= 'A' && c <= 'Z') {
@@ -161,7 +134,6 @@ public class BoardState {
 	private void putLetters(char[] word) {
 		for(char c : word) {
 			if(c >= 'A' && c <= 'Z') {
->>>>>>> 3e63c9ea6432c86f0aeb3bac1806d15a151c0533
 				remainingLetters[c-'A']++;
 			}
 		}
@@ -234,6 +206,18 @@ public class BoardState {
 		m.setPreviousState(b.toString().toCharArray());
 		m.setAddedLetters(b.toString().toCharArray());
 		m.setScore(score);
+	}
+
+	/**
+	 * Checks if there are any letters remaining on this board to make a move.
+	 * 
+	 * @return {@code true} If there is at least one letter available.
+	 */
+	public boolean hasRemainingLetters() {
+		for(int i : remainingLetters) {
+			if(i > 0) return true;
+		}
+		return false;
 	}
 	
 	public char[][] getSpaces() {
