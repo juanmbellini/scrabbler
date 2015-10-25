@@ -10,6 +10,7 @@ public class Solver {
 	private Set<String> dictionary;
 	private int[] letters;
 	private char[][] bestAnswer;
+	private int bestScore;
 	
 	
 	public Solver(Set<String> dictionary){
@@ -38,14 +39,16 @@ public class Solver {
 		PossibleWordsIterator it = new PossibleWordsIterator(dictionary.iterator(), letters);
 		BoardState result;
 		BoardState bestBoard = board;
+		bestScore = bestBoard.getScore();
 		while(it.hasNext()){
 			String word = it.next();
 			for(int i=0 ; i<word.length(); i++){
 				Move movement = new Move(word, 7 + i, 7, Direction.RIGHT);
 				board.doMove(movement);
 				result = backTracking(board, bestBoard);
-				if(result.compareTo(bestBoard)>0){
+				if(result.getScore() > bestBoard.getScore()){
 					bestBoard = result;
+					bestScore = bestBoard.getScore();
 				}
 				board.undoMove(movement);
 			}
@@ -56,7 +59,7 @@ public class Solver {
 	private BoardState backTracking(BoardState currentBoard, BoardState bestBoard){
 		Set<Move> movements=Helper.getPossibleMoves(currentBoard, this.dictionary);
 		if(movements.isEmpty()){
-			if(currentBoard.compareTo(bestBoard)>0){
+			if(currentBoard.getScore() > bestScore){
 				return currentBoard;
 			}
 			return bestBoard;
@@ -64,8 +67,9 @@ public class Solver {
 		for(Move movement: movements){
 			currentBoard.doMove(movement);
 			BoardState result = backTracking(currentBoard, bestBoard);
-			if(result.compareTo(bestBoard)>0){
+			if(result.getScore() > bestBoard.getScore()){
 				bestBoard = result;
+				bestScore = bestBoard.getScore();
 			}
 		}
 		return bestBoard;

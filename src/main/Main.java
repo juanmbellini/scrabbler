@@ -1,12 +1,10 @@
 package main;
 
-import general.BoardState;
-import general.Solver;
-import general.Validator;
-import gui.StateVisualizer;
-
 import java.util.HashSet;
 import java.util.Set;
+
+import general.Solver;
+import general.Validator;
 
 public class Main {
 
