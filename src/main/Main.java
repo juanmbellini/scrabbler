@@ -20,6 +20,14 @@ public class Main {
 		Validator.setDictionary(dictionary);
 		
 		int[] letters = new int[] {4, 1, 2, 3, 1, 0, 0, 0, 0, 2, 3, 3, 3, 3, 0, 3, 0, 3, 3, 3, 0, 0, 0, 0, 0, 0};
+		/*try {
+			FileProcessor.writeOutputFile(new BoardState(letters), "OLA KE ASE.txt");
+		} catch (IOException e) {
+			System.out.println("I/O error.");
+			e.printStackTrace();
+		}
+		System.exit(0);*/
+		
 		Solver solver = new Solver(dictionary);
 		System.out.println(solver.backTracking(dictionary,letters));
 		
