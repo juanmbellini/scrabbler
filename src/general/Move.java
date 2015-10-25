@@ -4,7 +4,10 @@ import general.BoardState.Direction;
 
 public class Move {
 	private String word;
+	private char[] previousState;
+	private char[] addedLetters;
 	private int x, y;
+	private int score;
 	private Direction dir;
 
 	public Move(String word, int x, int y, Direction dir) {
@@ -30,6 +33,30 @@ public class Move {
 		return dir;
 	}
 	
+	public char[] getPreviousState() {
+		return previousState;
+	}
+
+	public void setPreviousState(char[] previousState) {
+		this.previousState = previousState;
+	}
+
+	public int getScore() {
+		return score;
+	}
+
+	public void setScore(int score) {
+		this.score = score;
+	}
+
+	public char[] getAddedLetters() {
+		return addedLetters;
+	}
+
+	public void setAddedLetters(char[] addedLetters) {
+		this.addedLetters = addedLetters;
+	}
+
 	//TODO verify and remove if unnecessary
 	@Override
 	public int hashCode() {

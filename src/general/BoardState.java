@@ -71,38 +71,48 @@ public class BoardState {
 	}
 	
 	/**
-	 * Adds a word in a specified slot, in a specified direction, if the move
-	 * is valid.
+	 * Carries out the specified move, if valid, storing information about the current
+	 * state (see {@link #prepareMove(Move)}), before updating it.
+	 * <br />
+	 * <b>NOTE:</b> To undo this move, call {@link #undoMove(Move)} with this same move.
+	 * Performing other moves before undoing the specified one may cause inconsistency
+	 * in the board.
 	 * 
 	 * @param m The move to perform.
 	 * @return {@code true} If the move is valid and was performed, {@code false}
-	 * otherwises.
+	 * otherwise.
 	 */
 	public boolean doMove(Move m) {
 		if(!Validator.isValidMovement(m, this)) {
 			return false;
 		}
-		placeWord(m.getWord(), m.getX(), m.getY(), m.getDirection());
+		prepareMove(m);
+		placeWord(m.getWord().toCharArray(), m.getX(), m.getY(), m.getDirection());
+		score += m.getScore();
+		takeLetters(m.getAddedLetters());
 		return true;
 	}
 	
 	/**
-	 * Undoes the specified move (removes the specified word in the specified
-	 * starting space and direction).
+	 * Undoes the specified move, restoring the previous board state.
+	 * <br />
+	 * <b>NOTE:</b> This method is intended to restore the board state directly after
+	 * calling {@link #doMove(Move)} with the same Move. Undoing a move after a different
+	 * move has been performed may cause inconsistency in the board. 
 	 * 
 	 * @param m The move to undo.
 	 * @return {@code true} If the undoing was completed successfully, {@code false}
 	 * otherwise.
 	 */
 	public boolean undoMove(Move m) {
-		//TODO check the word still exists, return false if it doesn't
-		removeWord(m.getWord(), m.getX(), m.getY(), m.getDirection());
+		placeWord(m.getPreviousState(), m.getX(), m.getY(), m.getDirection());
+		score -= m.getScore();
+		putLetters(m.getAddedLetters());
 		return true;
 	}
 	
 	/**
-	 * Places the specified word, character by character, in this board's spaces
-	 * and adjusts the board's remaining letter count and score.
+	 * Places the specified word, character by character, in this board's spaces.
 	 * 
 	 * @param word The word to add.
 	 * @param x The starting column.
@@ -111,37 +121,40 @@ public class BoardState {
 	 * @return {@code true} if the movement is valid and the board was updated,
 	 * {@code false} otherwise.
 	 */
-	private void placeWord(String word, int x, int y, Direction dir) {
+	private void placeWord(char[] word, int x, int y, Direction dir) {
 		int deltaX = dir == Direction.RIGHT ? 1 : 0,
 				deltaY = dir == Direction.DOWN ? 1 : 0;
-		for(char c : word.toCharArray()) {
+		for(char c : word) {
 			spaces[y][x] = c;
 			x += deltaX;
 			y += deltaY;
-			remainingLetters[c-'A']--;
-			score += LETTER_POINTS[c-'A'];
 		}
 	}
 	
 	/**
-	 * Removes the specified word, character by character, in this board's spaces
-	 * marking them as empty (unless a slot is used by a different word) and
-	 * adjusts the board's remaining letter count and score.
+	 * Removes the specified letters from the available letters array. Called when
+	 * performing a move.
 	 * 
-	 * @param word The word to remove
-	 * @param x The starting column.
-	 * @param y The starting row.
-	 * @param dir Down or right.
-	 * @return {@code true} Always. //TODO always return true?
+	 * @param word The word whose letters to analyze and remove.
 	 */
-	private void removeWord(String word, int x, int y, Direction dir) {
-		int charsToRemove = word.length();
-		for(; charsToRemove >= 0; charsToRemove--) {
-			if(!hasAdjacentLetters(x, y)) {
-				char c = spaces[y][x];
+	private void takeLetters(char[] word) {
+		for(char c : word) {
+			if(c >= 'A' && c <= 'Z') {
+				remainingLetters[c-'A']--;
+			}
+		}
+	}
+	
+	/**
+	 * Puts the specified letters from the available letters array. Called when
+	 * undoing a move.
+	 * 
+	 * @param word The word whose letters to analyze and add.
+	 */
+	private void putLetters(char[] word) {
+		for(char c : word) {
+			if(c >= 'A' && c <= 'Z') {
 				remainingLetters[c-'A']++;
-				score -= LETTER_POINTS[c-'A'];
-				spaces[y][x] = ' ';
 			}
 		}
 	}
@@ -186,6 +199,35 @@ public class BoardState {
 				spaces[row][col] = ' ';
 			}
 		}
+	}
+	
+	/**
+	 * Stores information about the current board state in order to be able
+	 * to properly restore the board when the move is undone.
+	 * 
+	 * @param m The move to calculate the info for and store the info in.
+	 */
+	private void prepareMove(Move m) {
+		int deltaX = m.getDirection() == Direction.RIGHT ? 1 : 0,
+			deltaY = m.getDirection() == Direction.DOWN ? 1 : 0,
+			x = m.getX(),
+			y = m.getY(),
+			score = 0;
+		StringBuilder b = new StringBuilder(m.getWord().length()),
+			addedLetters = new StringBuilder(b.length());
+		for(int i = 0; i < b.length(); i++) {
+			char c = spaces[y][x];
+			b.append(c);						//Store board spaces before playing this move
+			if(c == ' ') {
+				score += LETTER_POINTS[c-'A'];	//Calculate score added by playing this move
+				addedLetters.append(c);			//Store letters NOT already on the board
+			}
+			x += deltaX;
+			y += deltaY;
+		}
+		m.setPreviousState(b.toString().toCharArray());
+		m.setAddedLetters(b.toString().toCharArray());
+		m.setScore(score);
 	}
 	
 	public char[][] getSpaces() {
