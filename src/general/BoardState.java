@@ -93,7 +93,7 @@ public class BoardState implements Comparable<BoardState> {
 	 * otherwise.
 	 */
 	public boolean undoMove(Move m) {
-		//TODO check the word still exists, return false if it doesn't
+		//TODO cambiar a nuestro 
 		removeWord(m.getWord(), m.getX(), m.getY(), m.getDirection());
 		return true;
 	}

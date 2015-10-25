@@ -22,7 +22,7 @@ public class Helper {
 			if(b.getRemainingLetters()[i]!=0){
 				flag=false;
 			}
-		}
+		} 	
 		if(flag == true){
 			return result;
 		}
