@@ -4,11 +4,13 @@ import general.BoardState;
 import general.BoardState.Direction;
 import general.Move;
 import general.PossibleWordsIterator;
-import general.Token;
 import general.Validator;
 
 import java.util.HashSet;
 import java.util.Set;
+
+import utility.Dictionary;
+import utility.WordCondition;
 
 /**
  * Helper class for making decisions when solving the problem.
@@ -16,7 +18,7 @@ import java.util.Set;
  */
 public class Helper {
 
-	public static Set<Move> getPossibleMoves(BoardState b, Set<String> dictionary) {
+	public static Set<Move> getPossibleMoves(BoardState b, Dictionary dictionary) {
 		boolean flag = true;
 		Set<Move> result = new HashSet<>();	//TODO order by score?
 		for(int i=0; i<b.getRemainingLetters().length && flag;i++){
@@ -31,24 +33,40 @@ public class Helper {
 		int[] remainingLetters = b.getRemainingLetters();
 		for (int y = 0; y < spaces.length; y++) {
 			for (int x = 0; x < spaces[y].length; x++) {
-				if(spaces[y][x + 1]== ' '){
-					getTokens(b,x,y,1,0);
+				if(x-1<0 || spaces[y][x-1]!=' ' || y-1<0 || spaces[y-1][x]!= ' '){
+					continue;
 				}
+				if(spaces[y][x + 1]== ' '){
+					for(String word : dictionary.giveMeWords(getWordConditions(b,x,y,1,0))){
+						result.add(new Move(word, x, y, Direction.RIGHT));
+					}
+				}
+				if(spaces[y+1][x]== ' '){
+					for(String word : dictionary.giveMeWords(getWordConditions(b,x,y,0,1))){
+						result.add(new Move(word, x, y, Direction.DOWN));
+					}
+				}
+				
+			}
+		}
+		for(Move move:result){
+			if(!Validator.isValidMovement(move, b)){
+				result.remove(move);
 			}
 		}
 		return result;
 	}
 	
-	public static Set<Token> getTokens(BoardState b,int x, int y, int dirX,int dirY){
-		Set<Token> tokens = new HashSet<Token>();
+	public static Set<WordCondition> getWordConditions(BoardState b,int x, int y, int dirX,int dirY){
+		Set<WordCondition> tokens = new HashSet<WordCondition>();
 		char[][]spaces = b.getSpaces();
-		for(int index = 0; index<7 && index<b.SIZE;index++){
+		for(int index = 0; index<7 && index * dirX + x<b.SIZE && index * dirY + y <b.SIZE;index++){
 			if(spaces[y + index * dirY][x + index  * dirX]!=' '){
 				if(dirX == 0){
-					tokens.add(new Token(spaces[y + index * dirY][x],index));
+					tokens.add(new WordCondition(index,spaces[y + index * dirY][x]));
 				}
 				else{
-					tokens.add(new Token(spaces[y][x + index * dirX],index));
+					tokens.add(new WordCondition(index, spaces[y][x + index * dirX]));
 				}
 			}
 		}
