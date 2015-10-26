@@ -1,13 +1,14 @@
 package solving;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import general.BoardState;
 import general.BoardState.Direction;
 import general.Move;
 import general.PossibleWordsIterator;
+import general.Token;
 import general.Validator;
+
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Helper class for making decisions when solving the problem.
@@ -30,19 +31,28 @@ public class Helper {
 		int[] remainingLetters = b.getRemainingLetters();
 		for (int y = 0; y < spaces.length; y++) {
 			for (int x = 0; x < spaces[y].length; x++) {
-				if(b.isOccupied(x, y)) {	//Word can potentially be formed from here
-					if(b.isSurrounded(x, y)) {
-						continue;
-					}
-					remainingLetters[spaces[y][x]-'A']++;	//This letter can be used (but only here)
-					for(Move m : getMovesAt(x, y, b, new PossibleWordsIterator(dictionary.iterator(), remainingLetters))) {
-						result.add(m);
-					}
-					remainingLetters[spaces[y][x]-'A']--;	//Now make this letter unusable again
+				if(spaces[y][x + 1]== ' '){
+					getTokens(b,x,y,1,0);
 				}
 			}
 		}
 		return result;
+	}
+	
+	public static Set<Token> getTokens(BoardState b,int x, int y, int dirX,int dirY){
+		Set<Token> tokens = new HashSet<Token>();
+		char[][]spaces = b.getSpaces();
+		for(int index = 0; index<7 && index<b.SIZE;index++){
+			if(spaces[y + index * dirY][x + index  * dirX]!=' '){
+				if(dirX == 0){
+					tokens.add(new Token(spaces[y + index * dirY][x],index));
+				}
+				else{
+					tokens.add(new Token(spaces[y][x + index * dirX],index));
+				}
+			}
+		}
+		return tokens;
 	}
 	
 	/**

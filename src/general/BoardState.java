@@ -137,13 +137,7 @@ public class BoardState {
 	 * 
 	 * @param word The word whose letters to analyze and remove.
 	 */
-<<<<<<< HEAD
-	private void removeWord(String word, int x, int y, Direction dir) {
-		int charsToRemove = word.length();
-		for(; charsToRemove > 0; charsToRemove--) {
-			if(!hasAdjacentLetters(x, y)) {
-				char c = spaces[y][x];
-=======
+
 	private void takeLetters(char[] word) {
 		for(char c : word) {
 			if(c >= 'A' && c <= 'Z') {
@@ -161,7 +155,6 @@ public class BoardState {
 	private void putLetters(char[] word) {
 		for(char c : word) {
 			if(c >= 'A' && c <= 'Z') {
->>>>>>> 3e63c9ea6432c86f0aeb3bac1806d15a151c0533
 				remainingLetters[c-'A']++;
 			}
 		}
