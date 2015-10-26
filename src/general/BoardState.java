@@ -121,6 +121,7 @@ public class BoardState {
 	 * @return {@code true} if the movement is valid and the board was updated,
 	 * {@code false} otherwise.
 	 */
+	
 	private void placeWord(char[] word, int x, int y, Direction dir) {
 		int deltaX = dir == Direction.RIGHT ? 1 : 0,
 				deltaY = dir == Direction.DOWN ? 1 : 0;
