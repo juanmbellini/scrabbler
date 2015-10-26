@@ -93,9 +93,11 @@ public class Dictionary {
 	
 	
 	/**
-	 * Returns a set of words that satisfies a letter position condition. For example, if your dictionary has the words
-	 * "HELADO", "HORA", "HORARIO", "HOLA", "ARBOL", "AVION", and you want words that has in their first position an 'H',
-	 * and in the fourth position an 'A', this method returns a set with the words("HORA", "HORARIO", "HELADO", "HOLA")
+	 * Returns a set of words that satisfy the letters positions conditions. It also contains those words that are shorter than the i-th position
+	 * but satisfied all the 0, 1, ... , i - 1 conditions.
+	 * <P>For example, if your dictionary has the words
+	 * "HELADO", "HORA", "HORARIO", "HOLA", "ARBOL", "AVION", "HOY", "HORAS" and you want words that has in their first position an 'H',
+	 * in the fourth position an 'A', and in the fifth position a 'D', this method returns a set with the words("HORA", "HOLA", "HELADO", "HOY")</p>
 	 * 
 	 * @param wordConditions The conditions that the words must satisfy
 	 * @return A Set of words that satisfy the conditions
