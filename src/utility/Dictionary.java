@@ -181,7 +181,7 @@ public class Dictionary {
 		
 		public LetterNode(char c) {
 			elem = c;
-			next = (c == '#') ? null : new HashMap<>(); // Avoids creating a list in a finishing word node
+			next = (c == '#') ? null : new HashMap<Character, LetterNode>(); // Avoids creating a list in a finishing word node
 		}
 		
 		@Override

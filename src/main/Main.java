@@ -59,7 +59,12 @@ public class Main {
 		else {
 			solver = new BackTrackingSolver(new BoardState(letters), visual);
 		}
-		BoardState solution = solver.solve();
+		//BoardState solution = solver.solve(); TODO uncomment
+		general.Solver s = new general.Solver(new utility.Dictionary());
+		for(String s2 : dictionary) {
+			s.getDictionary().addWord(s2);
+		}
+		BoardState solution = s.backTracking(s.getDictionary(), letters);
 		try {
 			FileProcessor.writeOutputFile(solution, outPath);
 		} catch (IOException e) {

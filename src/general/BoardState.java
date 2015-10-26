@@ -230,6 +230,18 @@ public class BoardState {
 		m.setScore(score);
 	}
 	
+	/**
+	 * Checks whether this board has at least one letter available to make moves.
+	 * 
+	 * @return {@code true} If there is at least one letter remaining.
+	 */
+	public boolean hasRemainingLetters() {
+		for(int i : remainingLetters) {
+			if(i > 0) return true;
+		}
+		return false;
+	}
+	
 	public char[][] getSpaces() {
 		return spaces;
 	}

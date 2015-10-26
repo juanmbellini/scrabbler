@@ -31,7 +31,8 @@ public class FileProcessor {
             String line;
             while((line = r.readLine()) != null) {
                 line = line.toUpperCase();
-                if(isASCII(line)) {		//Ignore invalid words
+                int len = line.length();
+                if(isASCII(line) && len >= 2 && len <= 7) {		//Ignore invalid words
                 	result.add(line.toUpperCase());                	
                 }
             }
