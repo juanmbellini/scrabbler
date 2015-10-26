@@ -5,15 +5,22 @@ import java.util.Set;
 
 import general.BoardState;
 
-
-public class HillClimbingSolver extends TimedSolver {
+/**
+ * Class used to reach an approximate solution to the problem with a stochastic hill climbing strategy.
+ */
+public class StochasticHillClimbingSolver extends TimedSolver {
+	private static final int OPTIMAL_T = 10;	//TODO TEST THIS! Find optimal value
 	private Random r;
 	private int T;
 	
-	public HillClimbingSolver(BoardState initial, long timeLimit, int T) {
-		super(initial, timeLimit);
+	public StochasticHillClimbingSolver(BoardState initial, boolean visual, long timeLimit, int T) {
+		super(initial, visual, timeLimit);
 		r = new Random();
 		this.T = T;
+	}
+	
+	public StochasticHillClimbingSolver(BoardState initial, boolean visual, long timeLimit) {
+		this(initial, visual, timeLimit, OPTIMAL_T);
 	}
 
 	@Override
@@ -24,10 +31,13 @@ public class HillClimbingSolver extends TimedSolver {
 	
 	private void solve(BoardState current, int maxScore) {
 		if(System.currentTimeMillis() >= endTime) {
+			print("Time limit reached.");
 			return;
 		}
+		print(current.toPrettyString());
 		Set<BoardState> neighbors = computeNeighbors(current);
 		if(!current.hasRemainingLetters() || neighbors.isEmpty()) {
+			print("No more moves from here.");
 			return;
 		}
 		for(BoardState b : neighbors) {
@@ -46,5 +56,9 @@ public class HillClimbingSolver extends TimedSolver {
 		return null;	//TODO
 	}
 
-	
+	@Override
+	protected BoardState solve(BoardState initial) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

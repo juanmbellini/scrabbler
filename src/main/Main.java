@@ -1,36 +1,73 @@
 package main;
 
-import java.util.HashSet;
+import java.io.IOException;
 import java.util.Set;
 
-import general.Solver;
-import general.Validator;
+import general.BoardState;
+import io.FileProcessor;
+import solving.BackTrackingSolver;
+import solving.Solver;
+import solving.StochasticHillClimbingSolver;
 
 public class Main {
-
+	
 	public static void main(String[] args) {
-		Set<String> dictionary = new HashSet<>();
-		dictionary.add("AUTO");
-		dictionary.add("CASA");
-		dictionary.add("TABLA");
-		dictionary.add("PELO");
-		dictionary.add("LIBRO");
-		dictionary.add("MONITOR");
-		dictionary.add("QUESO");
-		Validator.setDictionary(dictionary);
-		
-		int[] letters = new int[] {4, 1, 2, 3, 1, 0, 0, 0, 0, 2, 3, 3, 3, 3, 0, 3, 0, 3, 3, 3, 0, 0, 0, 0, 0, 0};
-		/*try {
-			FileProcessor.writeOutputFile(new BoardState(letters), "OLA KE ASE.txt");
-		} catch (IOException e) {
-			System.out.println("I/O error.");
-			e.printStackTrace();
+		String dictPath = args[0],
+			lettersPath = args[1],
+			outPath = args[2];
+			boolean visual = false;
+		long maxTime = -1;
+		for(int i = 3; i < args.length; i++) {	//Handle optional parameters
+			if(args[i].equals("-visual")) {
+				visual = true;
+			}
+			else if(args[i].startsWith("-maxtime")) {
+				try {
+					maxTime = Long.parseLong(args[i+1])*1000;
+					i++;	//Skip next parameter, it's the max time parameter which we just read
+				}
+				catch(NumberFormatException e) {
+					System.out.println("Invalid max time format. Aborting.");
+					System.exit(1);
+				}
+			}
 		}
-		System.exit(0);*/
+		//TODO validate parameters?
 		
-		Solver solver = new Solver(dictionary);
-		System.out.println(solver.backTracking(dictionary,letters));
-		
+		Set<String> dictionary = null;
+		int[] letters = null;
+		try {
+			dictionary = FileProcessor.processDictionaryFile(dictPath);
+			if(dictionary == null) {
+				System.out.println("Error reading dictionary file. Aborting.");
+				System.exit(-1);
+			}
+			letters = FileProcessor.processLettersFile(lettersPath);
+			if(letters == null) {
+				System.out.println("Error reading letters file. Aborting.");
+				System.exit(-1);
+			}
+		} catch (IOException e) {
+			System.out.println("I/O error reading input files: " + e.getMessage() + "\nAborting.");
+			System.exit(1);
+		}
+				
+		Solver solver = null;
+		if(maxTime > 0) {
+			solver = new StochasticHillClimbingSolver(new BoardState(letters), visual, maxTime);
+		}
+		else {
+			solver = new BackTrackingSolver(new BoardState(letters), visual);
+		}
+		BoardState solution = solver.solve();
+		try {
+			FileProcessor.writeOutputFile(solution, outPath);
+		} catch (IOException e) {
+			System.out.println("I/O error writing output file: " + e.getMessage());
+			System.out.println("I can show you the solution though! Here it is:");
+			System.out.println(solution.toPrettyString());
+			System.exit(1);
+		}
 	}
 
 }

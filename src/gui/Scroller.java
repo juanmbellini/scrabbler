@@ -13,7 +13,7 @@ import javax.swing.ScrollPaneConstants;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.Document;
 
-public class Scroller extends JPanel {
+class Scroller extends JPanel {
 	private static final long serialVersionUID = 5566538477072735282L;
 	private static final int WIDTH = StateVisualizer.WIDTH, HEIGHT = StateVisualizer.HEIGHT-30;
 	private JScrollPane sp;
