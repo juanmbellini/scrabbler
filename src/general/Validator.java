@@ -26,10 +26,10 @@ public class Validator {
 		if(dictionary == null || x < 0 || y < 0){	//si la estoy copiando desde afuera
 			return false;
 		}
+		if(!isWithinBounds(b, m) || !boardHasEnoughLettersFor(b, m)) {
+			return false;
+		}
 		if(m.getDirection() == Direction.DOWN){
-			if(y + word.length()>=BoardState.SIZE){  //si se pasa
-				return false;
-			}
 			for(int i=y, letterCounter = 0; i < y + word.length(); i++, letterCounter++){   		//se fija si 
 				if(b.isOccupied(x-1, i) || b.isOccupied(x+1, i)){ //no forma palabras nuevas y si lo 
 					StringBuffer wordaux= new StringBuffer(word.charAt(letterCounter));	//hace las checkea y se fija que exista
@@ -64,9 +64,6 @@ public class Validator {
 			}
 		}
 		else{
-			if(x + word.length()>=BoardState.SIZE){
-				return false;
-			}	
 			for(int i=x , letterCounter = 0; i < x + word.length(); i++, letterCounter++){
 				if(b.isOccupied(i, y-1) || b.isOccupied(i, y+1)){
 					StringBuffer wordaux= new StringBuffer(word.charAt(letterCounter));
@@ -120,5 +117,55 @@ public class Validator {
 			letters[(word.charAt(i)-'A')]++;
 		}
 		return false;
+	}
+	
+	/**
+	 * Checks that the specified move will not go out of bounds when
+	 * played on the specified board.
+	 * 
+	 * @param b The board on which the move would be applied.
+	 * @param m The move to analyze.
+	 * @return {@code true} If the start and end coordinates of the
+	 * specified move are all within the board's bounds.
+	 */
+	public static boolean isWithinBounds(BoardState b, Move m) {
+		int deltaX = m.getDirection() == Direction.RIGHT ? 1 : 0,
+				deltaY = m.getDirection() == Direction.DOWN ? 1 : 0;
+		int endX = m.getX()+(m.getWord().length()-1)*deltaX,
+				endY = m.getY()+(m.getWord().length()-1)*deltaY;
+		return m.getX() >= 0 && endX < BoardState.SIZE
+				&& m.getY() >= 0 && endY < BoardState.SIZE;
+	}
+	
+	/**
+	 * Checks that the specified board has enough letters to make
+	 * the specified move.
+	 * 
+	 * @param b The board state that would perform the move.
+	 * @param m The move to analyze. ASSUME THAT IT WON'T GO OUT OF BOUNDS.
+	 * @return {@code true} If the board has enough letters for the move.
+	 */
+	public static boolean boardHasEnoughLettersFor(BoardState b, Move m) {
+		int deltaX = m.getDirection() == Direction.RIGHT ? 1 : 0,
+				deltaY = m.getDirection() == Direction.DOWN ? 1 : 0;
+		int[] remainingLetters = b.getRemainingLetters();	//Start with how many remaining letters the board has
+		char[][] spaces = b.getSpaces();
+		for(int x = m.getX(), y = m.getY(), i = 0; i < m.getWord().length(); i++) {	//Add any letters available in the move slots
+			if(spaces[y][x] != ' ') {
+				remainingLetters[spaces[y][x]-'A']++;
+			}
+			x += deltaX;
+			y += deltaY;
+		}
+		for(char c : m.getWord().toCharArray()) {
+			remainingLetters[c-'A']--;
+		}
+		//All letter indices should have at least 0 remaining letters.
+		for(int i : remainingLetters) {
+			if(i < 0) {
+				return false;
+			}
+		}
+		return true;
 	}
 }

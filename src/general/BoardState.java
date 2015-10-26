@@ -83,9 +83,6 @@ public class BoardState {
 	 * otherwise.
 	 */
 	public boolean doMove(Move m) {
-		if(!Validator.isValidMovement(m, this)) {
-			return false;
-		}
 		prepareMove(m);
 		placeWord(m.getWord().toCharArray(), m.getX(), m.getY(), m.getDirection());
 		score += m.getScore();

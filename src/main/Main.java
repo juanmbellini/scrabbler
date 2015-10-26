@@ -73,6 +73,6 @@ public class Main {
 			System.out.println(solution.toPrettyString());
 			System.exit(1);
 		}
+		//System.exit(0);
 	}
-
 }

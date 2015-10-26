@@ -35,19 +35,20 @@ public class Helper {
 			for (int x = 0; x < spaces[y].length; x++) {
 				if(isPossible(b, x, y, 1, 0)){
 					for(String word : dictionary.giveMeWords(getWordConditions(b,x,y,1,0))){
-						result.add(new Move(word, x, y, Direction.RIGHT));
+						Move move = new Move(word, x, y, Direction.RIGHT);
+						if(Validator.isValidMovement(move, b)){
+							result.add(move);
+						}
 					}
 				}
 				if(isPossible(b, x, y, 0, 1)){
 					for(String word : dictionary.giveMeWords(getWordConditions(b,x,y,0,1))){
-						result.add(new Move(word, x, y, Direction.DOWN));
+						Move move = new Move(word, x, y, Direction.DOWN);
+						if(Validator.isValidMovement(move, b)){
+							result.add(move);
+						}
 					}
 				}				
-			}
-		}
-		for(Move move:result){
-			if(!Validator.isValidMovement(move, b)){
-				result.remove(move);
 			}
 		}
 		return result;

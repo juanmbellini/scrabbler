@@ -1,18 +1,20 @@
 package general;
 
-import general.BoardState.Direction;
-
+import java.util.HashSet;
 import java.util.Set;
 
+import general.BoardState.Direction;
+import gui.StateVisualizer;
 import solving.Helper;
 import utility.Dictionary;
+import utility.WordCondition;
 
 public class Solver {
 	private Dictionary dictionary;
 	private int[] letters;
 	private char[][] bestAnswer;
 	private int bestScore;
-	
+	private static StateVisualizer v = new StateVisualizer();
 	
 	public Solver(Dictionary dictionary){
 		this.dictionary=dictionary;
@@ -35,14 +37,14 @@ public class Solver {
 	
 	
 	public BoardState backTracking(Dictionary dictionary, int[] letters){
-		BoardState board = new BoardState(letters);
+		BoardState board = new BoardState(letters);		
 		this.dictionary = dictionary;
 		BoardState result;
 		BoardState bestBoard = board;
 		bestScore = bestBoard.getScore();
-		for(String word:dictionary.giveMeWords(null)){
+		for(String word:dictionary.giveMeWords(new HashSet<WordCondition>())){
 			for(int i=0 ; i<word.length(); i++){
-				Move movement = new Move(word, 7 + i, 7, Direction.RIGHT);
+				Move movement = new Move(word, 7 - i, 7, Direction.RIGHT);
 				board.doMove(movement);
 				result = backTracking(board, bestBoard);
 				if(result.getScore() > bestBoard.getScore()){
@@ -56,21 +58,23 @@ public class Solver {
 	}
 	
 	private BoardState backTracking(BoardState currentBoard, BoardState bestBoard){
+		v.print(currentBoard.toPrettyString());
 		Set<Move> movements=Helper.getPossibleMoves(currentBoard, this.dictionary);
 		if(movements.isEmpty()){
 			if(currentBoard.getScore() > bestScore){
-				return currentBoard;
+				return new BoardState(currentBoard);
 			}
-			return bestBoard;
+			return new BoardState(currentBoard);
 		}
 		for(Move movement: movements){
 			currentBoard.doMove(movement);
 			BoardState result = backTracking(currentBoard, bestBoard);
 			if(result.getScore() > bestBoard.getScore()){
-				bestBoard = result;
+				bestBoard = new BoardState(currentBoard);
 				bestScore = bestBoard.getScore();
 			}
+			currentBoard.undoMove(movement);
 		}
-		return bestBoard;
+		return new BoardState(currentBoard);
 	}
 }
