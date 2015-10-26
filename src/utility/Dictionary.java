@@ -134,15 +134,12 @@ public class Dictionary {
 					// satisfies the conditions
 					word[currentPosition] = auxLetter;
 					giveMeWords(queue, results, currentPosition + 1, word, each.getValue().next);
-				} else {
-					// I found an existing word. I must check if there are conditions remaining			
-					if (currentCondition == null) {
-						
-						// If no conditions remain, the word can be added toe the result set
-						String addingWord = String.valueOf(word, 0, currentPosition);
-						results.add(addingWord); // No more conditions --> word can be added without problem
-					}		
-					// In case the are conditions remaining, that word can't be added to the result set	
+				} else {		
+					// If a found an existing word, I must add it to the set even though it doesn't satisfy. It can be used
+					// in a possible move
+					String addingWord = String.valueOf(word, 0, currentPosition);
+					results.add(addingWord);
+
 				}
 			}
 			return;	
