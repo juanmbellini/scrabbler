@@ -1,6 +1,7 @@
 package solving;
 
 import general.BoardState;
+import gui.StateVisualizer;
 
 /**
  * General class used to modularize different tactics of solving the same problem.  Each solver is given an initial board
@@ -8,14 +9,18 @@ import general.BoardState;
  */
 public abstract class Solver {
 	protected BoardState best;
+	protected StateVisualizer visualizer;
 	
 	/**
 	 * Creates a new solver with an initial board state from which to start solving.
 	 * 
 	 * @param initial The starting board state.
 	 */
-	public Solver(BoardState initial) {
+	public Solver(BoardState initial, boolean visual) {
 		best = initial;
+		if(visual) {
+			visualizer = new StateVisualizer();
+		}
 	}
 	
 	/**
@@ -23,6 +28,22 @@ public abstract class Solver {
 	 * 
 	 * @return The board state that maximizes points.
 	 */
-	public abstract BoardState solve();
+	public final BoardState solve() {
+		print("Initial board:\n" + best.toPrettyString());
+		return solve(best);
+	}
+	
+	protected abstract BoardState solve(BoardState initial);
+	
+	/**
+	 * Shows the specified message on the solver's visualizer, if enabled.
+	 * 
+	 * @param message The message to show.
+	 */
+	protected void print(String message) {
+		if(visualizer != null) {
+			visualizer.print(message);
+		}
+	}
 
 }

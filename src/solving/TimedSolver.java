@@ -9,17 +9,16 @@ import general.BoardState;
 public abstract class TimedSolver extends Solver {
 	protected long timeLimit, endTime;
 	
-	
-	public TimedSolver(BoardState initial, long timeLimit) {
-		super(initial);
+	public TimedSolver(BoardState initial, boolean visual, long timeLimit) {
+		super(initial, visual);
 		this.timeLimit = timeLimit;
 	}
-
+	
 	@Override
-	public BoardState solve() {
+	protected BoardState solve(BoardState initial) {
 		endTime = System.currentTimeMillis() + timeLimit;
 		return solveWithTimeLimit();
 	}
-	
+
 	protected abstract BoardState solveWithTimeLimit();
 }
