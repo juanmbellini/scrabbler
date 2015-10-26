@@ -128,6 +128,8 @@ public class Dictionary {
 			
 			for (Entry<Character, LetterNode> each : nodes.entrySet()) {	
 				
+				// TODO capaz puedo meter el conditon checker adentro de la iteracion
+				
 				char auxLetter = each.getKey();	
 				if (auxLetter != '#') {
 					// The possible words continue, so I must check if the next letters of the possible words
@@ -145,7 +147,13 @@ public class Dictionary {
 			return;	
 		}
 		// If a get here, it means that there was a condition for the current position
-			
+		// If there is a word that finishes before this condition, it must be added
+		
+		if (nodes.get('#') != null) {
+			String addingWord = String.valueOf(word, 0, currentPosition);
+			results.add(addingWord);
+		}
+		
 		LetterNode aux = nodes.get(currentCondition.getLetter());
 		if (aux == null) {
 			return; // There is no word that satisfies the current letter condition
