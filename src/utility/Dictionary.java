@@ -1,5 +1,6 @@
 package utility;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -99,7 +100,7 @@ public class Dictionary {
 	 * @param wordConditions The conditions that the words must satisfy
 	 * @return A Set of words that satisfy the conditions
 	 */
-	public Set<String> giveMeWords(WordCondition... wordConditions) {
+	public Set<String> giveMeWords(Collection<WordCondition> wordConditions) {
 		
 		ConditionsQueue queue = new ConditionsQueue();
 		
