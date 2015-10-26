@@ -33,20 +33,16 @@ public class Helper {
 		int[] remainingLetters = b.getRemainingLetters();
 		for (int y = 0; y < spaces.length; y++) {
 			for (int x = 0; x < spaces[y].length; x++) {
-				if(x-1<0 || spaces[y][x-1]!=' ' || y-1<0 || spaces[y-1][x]!= ' '){
-					continue;
-				}
-				if(spaces[y][x + 1]== ' '){
+				if(isPossible(b, x, y, 1, 0)){
 					for(String word : dictionary.giveMeWords(getWordConditions(b,x,y,1,0))){
 						result.add(new Move(word, x, y, Direction.RIGHT));
 					}
 				}
-				if(spaces[y+1][x]== ' '){
+				if(isPossible(b, x, y, 0, 1)){
 					for(String word : dictionary.giveMeWords(getWordConditions(b,x,y,0,1))){
 						result.add(new Move(word, x, y, Direction.DOWN));
 					}
-				}
-				
+				}				
 			}
 		}
 		for(Move move:result){
@@ -57,6 +53,18 @@ public class Helper {
 		return result;
 	}
 	
+	private static boolean isPossible(BoardState b, int x, int y, int dirX, int dirY) {
+		boolean flagSpace=true,flagLetter = true;
+		for(int index = 0; index<7 && index * dirX + x<BoardState.SIZE && index * dirY + y <BoardState.SIZE && (flagLetter || flagSpace);index++){
+			if(b.getSpaces()[y + index * dirY][x + index * dirX]==' '){
+				flagSpace = false;
+			}else{
+				flagLetter = false;
+			}
+		}
+		return !(flagSpace || flagLetter);
+	}
+
 	public static Set<WordCondition> getWordConditions(BoardState b,int x, int y, int dirX,int dirY){
 		Set<WordCondition> tokens = new HashSet<WordCondition>();
 		char[][]spaces = b.getSpaces();

@@ -5,20 +5,21 @@ import general.BoardState.Direction;
 import java.util.Set;
 
 import solving.Helper;
+import utility.Dictionary;
 
 public class Solver {
-	private Set<String> dictionary;
+	private Dictionary dictionary;
 	private int[] letters;
 	private char[][] bestAnswer;
 	private int bestScore;
 	
 	
-	public Solver(Set<String> dictionary){
+	public Solver(Dictionary dictionary){
 		this.dictionary=dictionary;
 	}
 
 
-	public Set<String> getDictionary() {
+	public Dictionary getDictionary() {
 		return dictionary;
 	}
 
@@ -33,15 +34,13 @@ public class Solver {
 	}
 	
 	
-	public BoardState backTracking(Set<String> dictionary, int[] letters){
+	public BoardState backTracking(Dictionary dictionary, int[] letters){
 		BoardState board = new BoardState(letters);
 		this.dictionary = dictionary;
-		PossibleWordsIterator it = new PossibleWordsIterator(dictionary.iterator(), letters);
 		BoardState result;
 		BoardState bestBoard = board;
 		bestScore = bestBoard.getScore();
-		while(it.hasNext()){
-			String word = it.next();
+		for(String word:dictionary.giveMeWords(null)){
 			for(int i=0 ; i<word.length(); i++){
 				Move movement = new Move(word, 7 + i, 7, Direction.RIGHT);
 				board.doMove(movement);

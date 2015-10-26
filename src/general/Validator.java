@@ -40,9 +40,26 @@ public class Validator {
 					for(int j = x + 1; j < 15 && spaces[i][j]!=' '; j++){
 						wordaux.append(spaces[i][j]);
 					}
-					if(!wordExists(wordaux.toString())){
+					if(!dictionary.contains(wordaux.toString())){
 						return false;
 					}
+				}
+			}
+			if(spaces[y-1][x]!=' ' || spaces[y+m.getWord().length()][x]!=' '){
+				StringBuffer wordaux = new StringBuffer();
+				for(int j = y - 1; j > 0 && spaces[j][x]!=' '; j--){
+					wordaux.append(spaces[j][x]);
+				}
+				wordaux.reverse();
+				wordaux.append(m.getWord());
+				for(int j = y + m.getWord().length(); j<BoardState.SIZE && spaces[j][x]!=' '; j++){
+					wordaux.append(spaces[j][x]);
+				}
+				if(wordaux.length()>7){
+					return false;
+				}
+				if(!dictionary.contains(wordaux.toString())){
+					return false;
 				}
 			}
 		}
@@ -60,9 +77,26 @@ public class Validator {
 					for(int j = y + 1; j < 15 && spaces[j][i]!=' '; j++){
 						wordaux.append(spaces[j][i]);
 					}
-					if(!wordExists(wordaux.toString())){
+					if(!dictionary.contains(wordaux.toString())){
 						return false;
 					}
+				}
+			}
+			if(spaces[y][x-1]!=' ' || spaces[y][x+m.getWord().length()]!=' '){
+				StringBuffer wordaux = new StringBuffer();
+				for(int j = x - 1; j > 0 && spaces[y][j]!=' '; j--){
+					wordaux.append(spaces[y][j]);
+				}
+				wordaux.reverse();
+				wordaux.append(m.getWord());
+				for(int j = x + m.getWord().length(); j<BoardState.SIZE && spaces[y][j]!=' '; j++){
+					wordaux.append(spaces[y][j]);
+				}
+				if(wordaux.length()>7){
+					return false;
+				}
+				if(!dictionary.contains(wordaux.toString())){
+					return false;
 				}
 			}
 		}
