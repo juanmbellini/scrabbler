@@ -35,17 +35,30 @@ public class StochasticHillClimbingSolver extends TimedSolver {
 	protected BoardState solveWithTimeLimit() {
 		print("Initial board:\n" + best.toPrettyString());
 		
+		for(Move m : computeInitialMoves()) {
+			if(System.currentTimeMillis() >= endTime) {
+				print("Time limit reached.");
+				break;
+			}
+			initial.doMove(m);
+			solve(initial);
+			initial.undoMove(m);
+		}
+		return best;
+	}
+	
+	/**
+	 * Override behavior to generate one move per starting word, with a random first position.
+	 */
+	@Override
+	protected Set<Move> computeInitialMoves() {
 		Collection<String> words = dictionary.giveMeWords(new HashSet<WordCondition>());
 		Collection<String> possibleWords = new HashSet<String>();
-		
+		Set<Move> result = new HashSet<>();
 		int[] letters = new int[26];
 		
 		for (String each : words) {
-			
-			for (int i = 0 ; i < initial.getRemainingLetters().length ; i++) {
-				letters[i] = initial.getRemainingLetters()[i]; // Must do a copy of values because, if not, the real one gets modified
-			}
-			
+			letters = initial.getRemainingLetters().clone();
 			boolean flag = false;
 			char[] actualWord = each.toCharArray();
 			for (int i = 0 ; i < actualWord.length && !flag ; i++) {
@@ -61,6 +74,7 @@ public class StochasticHillClimbingSolver extends TimedSolver {
 			}
 		}
 		boolean hasMoreSolutions = true;
+<<<<<<< HEAD
 		Iterator<String> it = possibleWords.iterator();
 			while(hasMoreSolutions && it.hasNext()){
 				String word = it.next();
@@ -71,12 +85,20 @@ public class StochasticHillClimbingSolver extends TimedSolver {
 				initial.undoMove(movement);
 			}
 		return best;
+=======
+		while(hasMoreSolutions && it.hasNext()) {
+			String word = it.next();
+			int random =(int) r.nextDouble()*word.length();
+			Move movement = new Move(word, 7 - random,  7, Direction.RIGHT);
+			result.add(movement);
+		}
+		return result;
+>>>>>>> 273919865a567fee6c3d1f9855d24eb5a60aa3a8
 	}
-	
-	private boolean solve(BoardState current, int maxScore) {
+
+	private void solve(BoardState current) {
 		if(System.currentTimeMillis() >= endTime) {
-			print("Time limit reached.");
-			return false;
+			return;
 		}
 		if(!current.hasRemainingLetters()){
 			print("Best solution reached");
@@ -86,24 +108,20 @@ public class StochasticHillClimbingSolver extends TimedSolver {
 		Set<BoardState> neighbors = computeNeighbors(current);
 		if(neighbors.isEmpty()) {
 			print("No more moves from here.");
-			return true;
+			return;
 		}
+		BoardState backup = neighbors.iterator().next();	//In the rare case no probability works, go with the first
 		for(BoardState b : neighbors) {
 			double probability = 1/( 1+Math.exp( (current.getScore()-b.getScore()) )/T );
 			if(r.nextDouble() <= probability) {
-				if(b.getScore() > maxScore) {
+				if(b.getScore() > best.getScore()) {
 					best = new BoardState(b);
-					maxScore = best.getScore();
 					print("NEW MAX SCORE: " + best.getScore() + "\n");
-					try {
-						Thread.sleep(2000);
-					}
-					catch(InterruptedException e) {}
 				}
-				return solve(b, maxScore);
+				solve(b);
 			}
 		}
-		return true;
+		solve(backup);
 	}
 	
 	private Set<BoardState> computeNeighbors(BoardState b) {

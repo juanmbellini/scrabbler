@@ -37,6 +37,10 @@ public class Main {
 					System.out.println("Invalid max time format. Aborting.");
 					System.exit(1);
 				}
+				catch(ArrayIndexOutOfBoundsException e) {
+					System.out.println("No max time specified. Ignoring time limit.");
+					maxTime = -1;
+				}
 			}
 			else {
 				System.out.println("Skipping invalid parameter " + args[i]);
@@ -73,16 +77,6 @@ public class Main {
 			solver = new BackTrackingSolver(dict, letters, visual);
 		}
 		BoardState solution = solver.solve();
-		//DELETE FROM HERE--------------------------------------------------
-		/*general.Solver s = new general.Solver(new utility.Dictionary());
-		Set<String> uglyDict = new HashSet<String>();
-		for(String s2 : words) {
-			s.getDictionary().addWord(s2);
-			uglyDict.add(s2);
-		}
-		Validator.setDictionary(uglyDict);
-		BoardState solution = s.backTracking(s.getDictionary(), letters);*/
-		//DELETE TO HERE----------------------------------------------------
 		try {
 			FileProcessor.writeOutputFile(solution, outPath);
 		} catch (IOException e) {
