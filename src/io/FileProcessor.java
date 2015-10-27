@@ -96,6 +96,7 @@ public class FileProcessor {
 				w.write(row);
 				w.write(System.getProperty("line.separator"));	//Windows newline != linux newline
 			}
+			w.write("Score: " + board.getScore());
 		}
 		catch(IOException e) {
 			success = false;
