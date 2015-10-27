@@ -1,17 +1,14 @@
 package pruebasJM;
 
 import general.BoardState;
+import general.BoardState.Direction;
 import general.Move;
 import general.Validator;
-import general.BoardState.Direction;
 
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
-import com.sun.scenario.effect.impl.state.BoxRenderState;
-
-import pruebasJM.State.Directions;
 import utility.Dictionary;
 import utility.WordCondition;
 

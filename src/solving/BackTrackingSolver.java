@@ -55,10 +55,7 @@ public class BackTrackingSolver extends Solver {
 			for(int i=0 ; i<word.length(); i++){
 				Move movement = new Move(word, 7 - i, 7, Direction.RIGHT);
 				initial.doMove(movement);
-				BoardState result = solve(initial);
-				if(result.getScore() > best.getScore()) {
-					best = new BoardState(result);
-				}
+				solve(initial);
 				initial.undoMove(movement);
 			}
 		}
@@ -70,7 +67,7 @@ public class BackTrackingSolver extends Solver {
 		return best;
 	}
 	
-	private BoardState solve(BoardState initial) {		
+	private void solve(BoardState initial) {		
 		print(initial.toPrettyString());
 		Set<Move> movements = Helper.getPossibleMoves(initial, dictionary);
 		if(movements.isEmpty()){
@@ -82,17 +79,14 @@ public class BackTrackingSolver extends Solver {
 				}
 				catch(InterruptedException e) {}
 			}
-			return initial;
+			return;
 		}
 		for(Move movement: movements){
 			initial.doMove(movement);
-			BoardState result = solve(initial);
-			if(result.getScore() > best.getScore()){
-				best = new BoardState(initial);
-			}
+			solve(initial);
 			initial.undoMove(movement);
 		}
-		return initial;
+		return;
 	}
 
 }

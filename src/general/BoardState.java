@@ -1,6 +1,5 @@
 package general;
 
-import java.util.Arrays;
 
 /**
  * Class designed to represent the board. It contains all slots with either spaces
