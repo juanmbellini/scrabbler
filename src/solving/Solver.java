@@ -32,6 +32,7 @@ public abstract class Solver {
 		print("Initial board:\n" + best.toPrettyString());
 		solve(best);
 		print("Optimal solution:\n" + best.toPrettyString());
+		print("Score: " + best.getScore());
 		return best;
 	}
 	
