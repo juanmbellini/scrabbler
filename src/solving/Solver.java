@@ -9,7 +9,7 @@ import gui.StateVisualizer;
  * state and can solve the problem of finding the optimal board state with its own strategy.
  */
 public abstract class Solver {
-	private Dictionary dictionary;
+	protected Dictionary dictionary;
 	protected BoardState best, initial;
 	protected StateVisualizer visualizer;
 	

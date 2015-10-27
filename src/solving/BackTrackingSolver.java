@@ -1,7 +1,13 @@
 package solving;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import general.BoardState;
+import general.Move;
+import general.BoardState.Direction;
 import utility.Dictionary;
+import utility.WordCondition;
 
 /**
  * Class used to find an exact solution to the problem with a backtracking strategy. 
@@ -15,9 +21,17 @@ public class BackTrackingSolver extends Solver {
 	@Override
 	public BoardState solve() {
 		print("Initial board:\n" + best.toPrettyString());
-		for(Move m : initialMoves) {	//TODO do initial moves here
-			best.doMove(m);
-			solve(best);
+		
+		for(String word : dictionary.giveMeWords(new HashSet<WordCondition>())){
+			for(int i=0 ; i<word.length(); i++){
+				Move movement = new Move(word, 7 - i, 7, Direction.RIGHT);
+				initial.doMove(movement);
+				BoardState result = solve(initial);
+				if(result.getScore() > best.getScore()) {
+					best = new BoardState(result);
+				}
+				initial.undoMove(movement);
+			}
 		}
 		print("\n===============\n");
 		print("Optimal solution:\n" + best.toPrettyString());
@@ -25,13 +39,24 @@ public class BackTrackingSolver extends Solver {
 		return best;
 	}
 	
-	private BoardState solve(BoardState initial) {
+	private BoardState solve(BoardState initial) {		
 		print(initial.toPrettyString());
-		if(initial.getScore() > best.getScore()) {
-			best = new BoardState(initial);
+		Set<Move> movements = Helper.getPossibleMoves(initial, dictionary);
+		if(movements.isEmpty()){
+			if(initial.getScore() > best.getScore()){
+				best = new BoardState(initial);
+			}
+			return initial;
 		}
-		//TODO solve
-		return null;
+		for(Move movement: movements){
+			initial.doMove(movement);
+			BoardState result = solve(initial);
+			if(result.getScore() > best.getScore()){
+				best = new BoardState(initial);
+			}
+			initial.undoMove(movement);
+		}
+		return initial;//new BoardState(initial);
 	}
 
 }
