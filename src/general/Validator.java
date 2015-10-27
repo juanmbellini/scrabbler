@@ -29,6 +29,7 @@ public class Validator {
 		if(!isWithinBounds(b, m) || !boardHasEnoughLettersFor(b, m)) {
 			return false;
 		}
+		int overlappingSpaces = 0;
 		boolean matches = false;
 		if(m.getDirection() == Direction.DOWN) {
 			for(int i=y; i < y + word.length(); i++){   		//se fija si 
@@ -49,6 +50,7 @@ public class Validator {
 				}
 				if(b.isOccupied(x, i)){
 					matches = true;
+					overlappingSpaces++;
 				}
 			}
 			if((y > 0 && spaces[y-1][x]!=' ') || spaces[y+m.getWord().length()][x]!=' '){
@@ -67,6 +69,9 @@ public class Validator {
 				if(!dictionary.contains(wordaux.toString())){
 					return false;
 				}
+			}
+			if(overlappingSpaces == word.length()){
+				return false;
 			}
 		}
 		else{
