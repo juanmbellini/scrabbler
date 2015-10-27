@@ -62,8 +62,10 @@ public class BackTrackingSolver extends Solver {
 				initial.undoMove(movement);
 			}
 		}
-		print("\n===============\n");
-		print("Optimal solution:\n" + best.toPrettyString());
+		print("\n==============================\n");
+		print("Optimal solution:");
+		print("\n==============================\n");
+		print(best.toPrettyString());
 		print("Score: " + best.getScore() + "\n");
 		return best;
 	}
