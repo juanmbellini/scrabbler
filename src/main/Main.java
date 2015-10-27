@@ -10,6 +10,7 @@ import io.FileProcessor;
 import solving.BackTrackingSolver;
 import solving.Solver;
 import solving.StochasticHillClimbingSolver;
+import utility.Dictionary;
 
 public class Main {
 	
@@ -41,11 +42,11 @@ public class Main {
 				System.out.println("Skipping invalid parameter " + args[i]);
 			}
 		}
-		Set<String> dictionary = null;
+		Set<String> words = null;
 		int[] letters = null;
 		try {
-			dictionary = FileProcessor.processDictionaryFile(dictPath);
-			if(dictionary == null) {
+			words = FileProcessor.processDictionaryFile(dictPath);
+			if(words == null) {
 				System.out.println("Error reading dictionary file. Aborting.");
 				System.exit(-1);
 			}
@@ -60,22 +61,26 @@ public class Main {
 		}
 				
 		Solver solver = null;
+		Dictionary dict = new Dictionary();
+		for(String word : words) {
+			dict.addWord(word);
+		}
 		if(maxTime > 0) {
-			solver = new StochasticHillClimbingSolver(new BoardState(letters), visual, maxTime);
+			solver = new StochasticHillClimbingSolver(dict, letters, visual);
 		}
 		else {
-			solver = new BackTrackingSolver(new BoardState(letters), visual);
+			solver = new BackTrackingSolver(dict, letters, visual);
 		}
-		//BoardState solution = solver.solve(); TODO uncomment and delete:
+		BoardState solution = solver.solve();
 		//DELETE FROM HERE--------------------------------------------------
-		general.Solver s = new general.Solver(new utility.Dictionary());
+		/*general.Solver s = new general.Solver(new utility.Dictionary());
 		Set<String> uglyDict = new HashSet<String>();
-		for(String s2 : dictionary) {
+		for(String s2 : words) {
 			s.getDictionary().addWord(s2);
 			uglyDict.add(s2);
 		}
 		Validator.setDictionary(uglyDict);
-		BoardState solution = s.backTracking(s.getDictionary(), letters);
+		BoardState solution = s.backTracking(s.getDictionary(), letters);*/
 		//DELETE TO HERE----------------------------------------------------
 		try {
 			FileProcessor.writeOutputFile(solution, outPath);

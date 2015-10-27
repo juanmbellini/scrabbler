@@ -2,6 +2,7 @@ package solving;
 
 import general.BoardState;
 import general.Move;
+import utility.Dictionary;
 
 import java.util.HashSet;
 import java.util.Random;
@@ -15,14 +16,14 @@ public class StochasticHillClimbingSolver extends TimedSolver {
 	private Random r;
 	private int T;
 	
-	public StochasticHillClimbingSolver(BoardState initial, boolean visual, long timeLimit, int T) {
-		super(initial, visual, timeLimit);
+	public StochasticHillClimbingSolver(Dictionary dictionary, int[] startingLetters, boolean visual, int T) {
+		super(dictionary, startingLetters, visual);
 		r = new Random();
 		this.T = T;
 	}
-	
-	public StochasticHillClimbingSolver(BoardState initial, boolean visual, long timeLimit) {
-		this(initial, visual, timeLimit, OPTIMAL_T);
+
+	public StochasticHillClimbingSolver(Dictionary dictionary, int[] startingLetters, boolean visual) {
+		this(dictionary, startingLetters, visual, OPTIMAL_T);
 	}
 
 	@Override
@@ -40,6 +41,7 @@ public class StochasticHillClimbingSolver extends TimedSolver {
 		Set<BoardState> neighbors = computeNeighbors(current);
 		if(!current.hasRemainingLetters() || neighbors.isEmpty()) {
 			print("No more moves from here.");
+			//TODO start from another initial state
 			return;
 		}
 		for(BoardState b : neighbors) {
@@ -62,11 +64,5 @@ public class StochasticHillClimbingSolver extends TimedSolver {
 			result.add(clone);
 		}
 		return result;
-	}
-
-	@Override
-	protected BoardState solve(BoardState initial) {
-		// TODO Auto-generated method stub
-		return null;
 	}
 }

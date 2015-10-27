@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project name="Scrabbler" default="all" basedir=".">
+
+	<property name="dir" value="/home/jlipumafinnemore/Dropbox/ITBA/2do Año/2do Cuatri/Estructura de Datos y Algoritmos/scrabbler"/>
+    
+    <target name="all" depends="compile, jar, clean, run" />
+    
+    <target name="clean">
+        <delete dir="build"/>
+    </target>
+
+    <target name="compile">
+        <mkdir dir="build"/>
+        <javac srcdir="${dir}/src" destdir="build"/>
+    </target>
+
+    <target name="jar">
+        <jar destfile="tpe.jar" basedir="build">
+            <manifest>
+                <attribute name="Main-Class" value="main.Main"/>
+            </manifest>
+        </jar>
+    </target>
+
+    <target name="run">
+        <java jar="tpe.jar" fork="true"/>
+    </target>
+    
+</project>

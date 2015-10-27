@@ -1,6 +1,7 @@
 package solving;
 
 import general.BoardState;
+import utility.Dictionary;
 
 /**
  * Class used to modularize different tactics of solving the same problem, but with a time limit.  Each solver is given an
@@ -9,13 +10,13 @@ import general.BoardState;
 public abstract class TimedSolver extends Solver {
 	protected long timeLimit, endTime;
 	
-	public TimedSolver(BoardState initial, boolean visual, long timeLimit) {
-		super(initial, visual);
+	public TimedSolver(Dictionary dictionary, int[] startingLetters, boolean visual) {
+		super(dictionary, startingLetters, visual);
 		this.timeLimit = timeLimit;
 	}
-	
+
 	@Override
-	protected BoardState solve(BoardState initial) {
+	public BoardState solve() {
 		endTime = System.currentTimeMillis() + timeLimit;
 		return solveWithTimeLimit();
 	}

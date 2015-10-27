@@ -10,7 +10,7 @@ import gui.StateVisualizer;
  */
 public abstract class Solver {
 	private Dictionary dictionary;
-	protected BoardState best;
+	protected BoardState best, initial;
 	protected StateVisualizer visualizer;
 	
 	/**
@@ -18,12 +18,13 @@ public abstract class Solver {
 	 * 
 	 * @param initial The starting board state.
 	 */
-	public Solver(BoardState initial, Dictionary dictionary ,boolean visual) {
-		best = initial;
+	public Solver(Dictionary dictionary, int[] startingLetters, boolean visual) {
+		this.dictionary = dictionary;
+		initial  = new BoardState(startingLetters);
+		best = new BoardState(initial);
 		if(visual) {
 			visualizer = new StateVisualizer();
 		}
-		this.dictionary = dictionary;
 	}
 	
 	/**
@@ -31,16 +32,7 @@ public abstract class Solver {
 	 * 
 	 * @return The board state that maximizes points.
 	 */
-	public final BoardState solve() {
-		print("Initial board:\n" + best.toPrettyString());
-		solve(best);
-		print("\n===============\n");
-		print("Optimal solution:\n" + best.toPrettyString());
-		print("Score: " + best.getScore());
-		return best;
-	}
-	
-	protected abstract BoardState solve(BoardState initial);
+	public abstract BoardState solve();
 	
 	/**
 	 * Shows the specified message on the solver's visualizer, if enabled.
