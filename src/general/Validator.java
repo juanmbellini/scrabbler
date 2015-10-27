@@ -31,10 +31,11 @@ public class Validator {
 		}
 		boolean matches = false;;
 		if(m.getDirection() == Direction.DOWN) {
-			for(int i=y, letterCounter = 0; i < y + word.length(); i++, letterCounter++){   		//se fija si 
+			for(int i=y; i < y + word.length(); i++){   		//se fija si 
 				if(b.isOccupied(x-1, i) || b.isOccupied(x+1, i)){ //no forma palabras nuevas y si lo 
 					matches = true;
-					StringBuffer wordaux= new StringBuffer(word.charAt(letterCounter));	//hace las checkea y se fija que exista
+					StringBuffer wordaux= new StringBuffer();	//hace las checkea y se fija que exista
+					wordaux.append(spaces[i][x]);
 					for(int j = x - 1; j > 0 && spaces[i][j]!=' '; j--){
 						wordaux.append(spaces[i][j]);
 					}
@@ -72,7 +73,8 @@ public class Validator {
 			for(int i=x , letterCounter = 0; i < x + word.length(); i++, letterCounter++){
 				if(b.isOccupied(i, y-1) || b.isOccupied(i, y+1)){
 					matches = true;
-					StringBuffer wordaux= new StringBuffer(word.charAt(letterCounter));
+					StringBuffer wordaux= new StringBuffer();
+					wordaux.append(spaces[y][i]);
 					for(int j = y - 1; j > 0 && spaces[j][i]!=' '; j--){
 						wordaux.append(spaces[j][i]);
 					}
