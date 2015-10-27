@@ -27,7 +27,7 @@ public class Helper {
 		int[] remainingLetters = b.getRemainingLetters();
 		for (int y = 0; y < spaces.length; y++) {
 			for (int x = 0; x < spaces[y].length; x++) {
-				if(isPossible(b, x, y, 1, 0)){
+				if(isValidRange(b, x, y, Direction.RIGHT)){
 					for(String word : dictionary.giveMeWords(getWordConditions(b,x,y,1,0))){
 						Move move = new Move(word, x, y, Direction.RIGHT);
 						if(Validator.isValidMovement(move, b)){
@@ -35,7 +35,7 @@ public class Helper {
 						}
 					}
 				}
-				if(isPossible(b, x, y, 0, 1)){
+				if(isValidRange(b, x, y, Direction.DOWN)){
 					for(String word : dictionary.giveMeWords(getWordConditions(b,x,y,0,1))){
 						Move move = new Move(word, x, y, Direction.DOWN);
 						if(Validator.isValidMovement(move, b)){
@@ -48,16 +48,33 @@ public class Helper {
 		return result;
 	}
 	
-	private static boolean isPossible(BoardState b, int x, int y, int dirX, int dirY) {
-		boolean flagSpace=true,flagLetter = true;
-		for(int index = 0; index<7 && index * dirX + x<BoardState.SIZE && index * dirY + y <BoardState.SIZE && (flagLetter || flagSpace);index++){
-			if(b.getSpaces()[y + index * dirY][x + index * dirX]==' '){
-				flagSpace = false;
-			}else{
-				flagLetter = false;
+	/**
+	 * Checks if any word could be placed in the specified starting position and direction. 
+	 * 
+	 * @param b The board to analyze the case in.
+	 * @param x The starting column.
+	 * @param y The starting row.
+	 * @param dir The direction in which to advance.
+	 * @return {@code true} If within the maximum length of allowed words there is at least
+	 * one space and one letter (no letters => can't combine, no spaces => no room)
+	 */
+	private static boolean isValidRange(BoardState b, int x, int y, Direction dir) {
+		boolean foundSpace = false, foundLetter = false;
+		int deltaX = dir == Direction.RIGHT ? 1 : 0,
+				deltaY = dir == Direction.DOWN ? 1 : 0;
+		char[][] spaces = b.getSpaces();
+		for(int i = 0; i < 7; i++) {
+			if(x < 0 || x >= BoardState.SIZE || y < 0 || y >= BoardState.SIZE) break;
+			if(spaces[y][x] == ' ')  {
+				foundSpace = true;
 			}
+			else {
+				foundLetter = true;
+			}
+			x += deltaX;
+			y += deltaY;
 		}
-		return !(flagSpace || flagLetter);
+		return foundSpace && foundLetter;
 	}
 
 	public static Set<WordCondition> getWordConditions(BoardState b,int x, int y, int dirX,int dirY){
