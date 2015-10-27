@@ -6,6 +6,7 @@ import general.Move;
 import general.PossibleWordsIterator;
 import general.Validator;
 
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -18,27 +19,35 @@ import utility.WordCondition;
  */
 public class Helper {
 
-	public static Set<Move> getPossibleMoves(BoardState b, Dictionary dictionary) {
-		Set<Move> result = new HashSet<>();	//TODO order by score?
-		if(!b.hasRemainingLetters()) {
+	public static Set<Move> getPossibleMoves(BoardState boardState, Dictionary dictionary) {
+		Set<Move> result = new HashSet<Move>();	//TODO order by score?
+		
+		if(!boardState.hasRemainingLetters()) {
 			return result;	//No moves, return empty result
 		}
-		char[][] spaces = b.getSpaces();
-		int[] remainingLetters = b.getRemainingLetters();
+		char[][] spaces = boardState.getSpaces();
+		int[] remainingLetters = boardState.getRemainingLetters();
+		
 		for (int y = 0; y < spaces.length; y++) {
+			
 			for (int x = 0; x < spaces[y].length; x++) {
-				if(isValidRange(b, x, y, Direction.RIGHT)){
-					for(String word : dictionary.giveMeWords(getWordConditions(b,x,y,1,0))){
+				
+				if(isValidRange(boardState, x, y, Direction.RIGHT)) {
+					
+					Collection<String> words = dictionary.giveMeWords(getWordConditions(boardState,x,y,1,0));
+					
+					for(String word : words) {
 						Move move = new Move(word, x, y, Direction.RIGHT);
-						if(Validator.isValidMovement(move, b)){
+						if(Validator.isValidMovement(move, boardState)){
 							result.add(move);
 						}
 					}
 				}
-				if(isValidRange(b, x, y, Direction.DOWN)){
-					for(String word : dictionary.giveMeWords(getWordConditions(b,x,y,0,1))){
+				
+				if(isValidRange(boardState, x, y, Direction.DOWN)){
+					for(String word : dictionary.giveMeWords(getWordConditions(boardState,x,y,0,1))){
 						Move move = new Move(word, x, y, Direction.DOWN);
-						if(Validator.isValidMovement(move, b)){
+						if(Validator.isValidMovement(move, boardState)){
 							result.add(move);
 						}
 					}
@@ -77,11 +86,15 @@ public class Helper {
 		return foundSpace && foundLetter;
 	}
 
-	public static Set<WordCondition> getWordConditions(BoardState b,int x, int y, int dirX,int dirY){
+	public static Set<WordCondition> getWordConditions(BoardState boardsState, int x, int y, int dirX, int dirY) {
+		
 		Set<WordCondition> tokens = new HashSet<WordCondition>();
-		char[][]spaces = b.getSpaces();
-		for(int index = 0; index<7 && index * dirX + x<b.SIZE && index * dirY + y <b.SIZE;index++){
+		char[][]spaces = boardsState.getSpaces();
+		
+		for(int index = 0; (index < 7) && (index * dirX +  x < BoardState.SIZE) && (index * dirY + y < BoardState.SIZE) ; index++) {
+			
 			if(spaces[y + index * dirY][x + index  * dirX]!=' '){
+				
 				if(dirX == 0){
 					tokens.add(new WordCondition(index,spaces[y + index * dirY][x]));
 				}

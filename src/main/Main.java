@@ -65,6 +65,7 @@ public class Main {
 		for(String word : words) {
 			dict.addWord(word);
 		}
+		Validator.setDictionary(dict);
 		if(maxTime > 0) {
 			solver = new StochasticHillClimbingSolver(dict, letters, visual);
 		}

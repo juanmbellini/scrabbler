@@ -1,11 +1,13 @@
 package solving;
 
+import general.BoardState;
+import general.BoardState.Direction;
+import general.Move;
+
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
-import general.BoardState;
-import general.Move;
-import general.BoardState.Direction;
 import utility.Dictionary;
 import utility.WordCondition;
 
@@ -22,7 +24,34 @@ public class BackTrackingSolver extends Solver {
 	public BoardState solve() {
 		print("Initial board:\n" + best.toPrettyString());
 		
-		for(String word : dictionary.giveMeWords(new HashSet<WordCondition>())){
+		Collection<String> words = dictionary.giveMeWords(new HashSet<WordCondition>());
+		Collection<String> possibleWords = new HashSet<String>();
+		
+		int[] letters = new int[26];
+		
+		for (String each : words) {
+			
+			for (int i = 0 ; i < initial.getRemainingLetters().length ; i++) {
+				letters[i] = initial.getRemainingLetters()[i]; // Must do a copy of values because, if not, the real one gets modified
+			}
+			
+			boolean flag = false;
+			char[] actualWord = each.toCharArray();
+			for (int i = 0 ; i < actualWord.length && !flag ; i++) {
+				int actualLetter = actualWord[i] - 'A';
+				if (letters[actualLetter] == 0) {
+					flag = true; // No more letters for this word, so it can't be a possible starting move
+				} else {
+					letters[actualLetter]--; // Gets off the used letter
+				}
+			}
+			if (!flag) {
+				possibleWords.add(each);
+			}
+		}
+		
+		
+		for(String word : possibleWords){
 			for(int i=0 ; i<word.length(); i++){
 				Move movement = new Move(word, 7 - i, 7, Direction.RIGHT);
 				initial.doMove(movement);
