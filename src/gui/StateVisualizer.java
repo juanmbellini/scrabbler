@@ -32,7 +32,7 @@ public class StateVisualizer {
 	}
 	
 	public void print(String message) {
-		if(s == null) return;	//Not ready yet
+		if(s == null) return;	//Not ready to print
 		s.print(message);
 	}
 }

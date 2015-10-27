@@ -15,14 +15,16 @@ import javax.swing.text.Document;
 
 class Scroller extends JPanel {
 	private static final long serialVersionUID = 5566538477072735282L;
-	private static final int WIDTH = StateVisualizer.WIDTH, HEIGHT = StateVisualizer.HEIGHT-30;
+	private static final int WIDTH = StateVisualizer.WIDTH, HEIGHT = StateVisualizer.HEIGHT-35;
 	private JScrollPane sp;
 	private JTextPane tp;
 	private Font font;
 	private Document doc;
+	private int shownStatus;
 	
 	public Scroller() throws FontFormatException, IOException {
 		init();
+		shownStatus = 0;
 	}
 	
 	private void init() throws FontFormatException, IOException {
@@ -51,8 +53,13 @@ class Scroller extends JPanel {
 	
 	public void print(String message) {
 		try {
+			if(message.charAt(0) == '-' && shownStatus >= 50) {	//Flush output on 50 board states written
+				doc.remove(0, doc.getLength());
+				shownStatus = 0;
+			}
 			doc.insertString(doc.getLength(), message, null);
 			tp.setCaretPosition(doc.getLength());	//Scroll to bottom
+			shownStatus++;
 		}
 		catch (BadLocationException e) {
 			System.out.println("Visualizer error.  Aborting.");

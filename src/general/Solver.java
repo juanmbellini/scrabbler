@@ -40,7 +40,7 @@ public class Solver {
 		BoardState board = new BoardState(letters);		
 		this.dictionary = dictionary;
 		BoardState result;
-		BoardState bestBoard = board;
+		BoardState bestBoard = new BoardState(board);
 		bestScore = bestBoard.getScore();
 		for(String word:dictionary.giveMeWords(new HashSet<WordCondition>())){
 			for(int i=0 ; i<word.length(); i++){
@@ -48,12 +48,13 @@ public class Solver {
 				board.doMove(movement);
 				result = backTracking(board, bestBoard);
 				if(result.getScore() > bestBoard.getScore()){
-					bestBoard = result;
+					bestBoard = new BoardState(result);
 					bestScore = bestBoard.getScore();
 				}
 				board.undoMove(movement);
 			}
 		}
+		v.print("\nScore: " + bestBoard.getScore());
 		return bestBoard;
 	}
 	

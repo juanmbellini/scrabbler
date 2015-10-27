@@ -34,7 +34,9 @@ public abstract class Solver {
 	public final BoardState solve() {
 		print("Initial board:\n" + best.toPrettyString());
 		solve(best);
+		print("\n===============\n");
 		print("Optimal solution:\n" + best.toPrettyString());
+		print("Score: " + best.getScore());
 		return best;
 	}
 	
