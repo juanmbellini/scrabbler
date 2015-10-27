@@ -35,7 +35,7 @@ public class BackTrackingSolver extends Solver {
 		}
 		print("\n===============\n");
 		print("Optimal solution:\n" + best.toPrettyString());
-		print("Score: " + best.getScore());
+		print("Score: " + best.getScore() + "\n");
 		return best;
 	}
 	
@@ -45,6 +45,11 @@ public class BackTrackingSolver extends Solver {
 		if(movements.isEmpty()){
 			if(initial.getScore() > best.getScore()){
 				best = new BoardState(initial);
+				print("NEW MAX SCORE: " + best.getScore() + "\n");
+				try {
+					Thread.sleep(2000);
+				}
+				catch(InterruptedException e) {}
 			}
 			return initial;
 		}
@@ -56,7 +61,7 @@ public class BackTrackingSolver extends Solver {
 			}
 			initial.undoMove(movement);
 		}
-		return initial;//new BoardState(initial);
+		return initial;
 	}
 
 }
