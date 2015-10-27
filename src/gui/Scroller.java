@@ -55,8 +55,8 @@ class Scroller extends JPanel {
 			tp.setCaretPosition(doc.getLength());	//Scroll to bottom
 		}
 		catch (BadLocationException e) {
-			// TODO Handle errors
-			e.printStackTrace();
+			System.out.println("Visualizer error.  Aborting.");
+			System.exit(1);
 		}
 	}
 }

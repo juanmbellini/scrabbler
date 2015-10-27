@@ -37,9 +37,10 @@ public class Main {
 					System.exit(1);
 				}
 			}
+			else {
+				System.out.println("Skipping invalid parameter " + args[i]);
+			}
 		}
-		//TODO validate parameters?
-		
 		Set<String> dictionary = null;
 		int[] letters = null;
 		try {
@@ -65,7 +66,8 @@ public class Main {
 		else {
 			solver = new BackTrackingSolver(new BoardState(letters), visual);
 		}
-		//BoardState solution = solver.solve(); TODO uncomment
+		//BoardState solution = solver.solve(); TODO uncomment and delete:
+		//DELETE FROM HERE--------------------------------------------------
 		general.Solver s = new general.Solver(new utility.Dictionary());
 		Set<String> uglyDict = new HashSet<String>();
 		for(String s2 : dictionary) {
@@ -74,6 +76,7 @@ public class Main {
 		}
 		Validator.setDictionary(uglyDict);
 		BoardState solution = s.backTracking(s.getDictionary(), letters);
+		//DELETE TO HERE----------------------------------------------------
 		try {
 			FileProcessor.writeOutputFile(solution, outPath);
 		} catch (IOException e) {
