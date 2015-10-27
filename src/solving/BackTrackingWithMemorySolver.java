@@ -12,8 +12,10 @@ import java.util.Set;
 import utility.Dictionary;
 
 /**
- *
- * @author jlipumafinnemore
+ * Class used to find an exact solution to the problem via backtracking with
+ * memory. By sacrificing memory performance, the algorithm knows which states
+ * have been visited and avoids repeating them, greatly increasing time
+ * performance when compared to ordinary backtracking.
  */
 public class BackTrackingWithMemorySolver extends Solver {
     Set<String> visitedStates;
@@ -29,10 +31,11 @@ public class BackTrackingWithMemorySolver extends Solver {
         int count = 0;
         for(Move m : computeInitialMoves()) {
             visitedStates.clear();
-            System.out.println("Base movement #" + (++count));
             initial.doMove(m);
             visitedStates.add(initial.toString());
-            solve(initial);
+            if(!solve(initial)) {
+                break;  //Absolute maximum found, stop
+            }
             initial.undoMove(m);
         }
         print("\n==============================\n");
@@ -43,35 +46,39 @@ public class BackTrackingWithMemorySolver extends Solver {
         return best;
     }
     
-    private void solve(BoardState initial) {
-        print(initial.toPrettyString());
-        Set<Move> movements = Helper.getPossibleMoves(initial, dictionary);
+    /**
+     * Solves the problem recursively.
+     * 
+     * @param current The current board state.
+     * @return {@code true} If the solving should continue, {@code false} if an
+     * absolute maximum has been found and the solving should stop.
+     */
+    private boolean solve(BoardState current) {
+        print(current.toPrettyString());
+        Set<Move> movements = Helper.getPossibleMoves(current, dictionary);
         if(movements.isEmpty()){
-            if(initial.getScore() > best.getScore()){
-                best = new BoardState(initial);
-                System.out.println("NEW MAX SCORE: " + best.getScore() + "\n");
-                print("NEW MAX SCORE: " + best.getScore() + "\n");
-                try {
-                    Thread.sleep(1000);
+            if(current.getScore() > best.getScore()){
+                best = new BoardState(current);
+                print("\nNEW MAX SCORE: " + best.getScore() + "\n");
+                if(!current.hasRemainingLetters()) {
+                    return false;
                 }
-                catch(InterruptedException e) {}
             }
-            return;
+            return true;
         }
-        for(Move movement: movements){
-            initial.doMove(movement);
-            if(!visitedStates.contains(initial.toString())) {
-                visitedStates.add(initial.toString());
-                solve(initial);
-            }
-            else {
-                print("Avoiding visited state.\n");
-                /*try {
-                    Thread.sleep(1000);
+        else {
+            for(Move movement: movements) {
+                current.doMove(movement);
+                if(!visitedStates.contains(current.toString())) {
+                    visitedStates.add(current.toString());
+                    solve(current);
                 }
-                catch(InterruptedException e) {}*/
+                else {
+                    print("\nAvoiding visited state.\n");
+                }
+                current.undoMove(movement);
             }
-            initial.undoMove(movement);
+            return true;
         }
     }
 }
