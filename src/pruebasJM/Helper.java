@@ -44,7 +44,7 @@ public class Helper {
 			
 			for (int x = 0; x < spaces[y].length; x++) {
 				
-				if(isValidRange(boardState, x, y, Direction.RIGHT)) {
+				if(isValidRange(boardState, x, y, BoardState.Direction.RIGHT)) {
 					
 					Collection<String> words = dictionary.giveMeWords(getWordConditions(boardState,x,y,1,0));
 					
@@ -56,7 +56,7 @@ public class Helper {
 					}
 				}
 				
-				if(isValidRange(boardState, x, y, Direction.DOWN)){
+				if(isValidRange(boardState, x, y, BoardState.Direction.DOWN)){
 					for(String word : dictionary.giveMeWords(getWordConditions(boardState,x,y,0,1))){
 						Move move = new Move(word, x, y, Direction.DOWN);
 						if(Validator.isValidMovement(move, boardState)){
@@ -87,7 +87,7 @@ public class Helper {
 		boolean foundSpace = false, foundLetter = false;
 		char[][] spaces = boardState.getSpaces();
 		
-		if (dir == Direction.DOWN) {
+		if (dir == BoardState.Direction.DOWN) {
 			boolean flag = false;		
 			for (int index = 0 ; index < 7 && !flag && !(foundSpace && foundLetter); i++) {
 				if (i < 0 || i >= BoardState.SIZE || j < 0 || j >= BoardState.SIZE) {
