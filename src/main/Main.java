@@ -7,7 +7,7 @@ import io.FileProcessor;
 import java.io.IOException;
 import java.util.Set;
 
-import solving.BackTrackingSolver;
+import solving.BackTrackingWithMemorySolver;
 import solving.Solver;
 import solving.StochasticHillClimbingSolver;
 import utility.Dictionary;
@@ -74,7 +74,7 @@ public class Main {
 			solver = new StochasticHillClimbingSolver(dict, letters, visual, maxTime);
 		}
 		else {
-			solver = new BackTrackingSolver(dict, letters, visual);
+			solver = new BackTrackingWithMemorySolver(dict, letters, visual);
 		}
 		BoardState solution = solver.solve();
 		try {
