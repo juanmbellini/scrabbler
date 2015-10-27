@@ -90,6 +90,11 @@ public class StochasticHillClimbingSolver extends TimedSolver {
 				if(b.getScore() > maxScore) {
 					best = new BoardState(b);
 					maxScore = best.getScore();
+					print("NEW MAX SCORE: " + best.getScore() + "\n");
+					try {
+						Thread.sleep(2000);
+					}
+					catch(InterruptedException e) {}
 				}
 				return solve(b, maxScore);
 			}
