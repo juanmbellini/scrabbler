@@ -15,7 +15,7 @@ import javax.swing.text.Document;
 
 class Scroller extends JPanel {
 	private static final long serialVersionUID = 5566538477072735282L;
-	private static final int WIDTH = StateVisualizer.WIDTH, HEIGHT = StateVisualizer.HEIGHT-30;
+	private static final int WIDTH = StateVisualizer.WIDTH, HEIGHT = StateVisualizer.HEIGHT-35;
 	private JScrollPane sp;
 	private JTextPane tp;
 	private Font font;
@@ -53,7 +53,7 @@ class Scroller extends JPanel {
 	
 	public void print(String message) {
 		try {
-			if(shownStatus == 50) {
+			if(message.charAt(0) == '-' && shownStatus >= 50) {	//Flush output on 50 board states written
 				doc.remove(0, doc.getLength());
 				shownStatus = 0;
 			}
