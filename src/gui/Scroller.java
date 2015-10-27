@@ -20,9 +20,11 @@ class Scroller extends JPanel {
 	private JTextPane tp;
 	private Font font;
 	private Document doc;
+	private int shownStatus;
 	
 	public Scroller() throws FontFormatException, IOException {
 		init();
+		shownStatus = 0;
 	}
 	
 	private void init() throws FontFormatException, IOException {
@@ -51,8 +53,13 @@ class Scroller extends JPanel {
 	
 	public void print(String message) {
 		try {
+			if(shownStatus == 50) {
+				doc.remove(0, doc.getLength());
+				shownStatus = 0;
+			}
 			doc.insertString(doc.getLength(), message, null);
 			tp.setCaretPosition(doc.getLength());	//Scroll to bottom
+			shownStatus++;
 		}
 		catch (BadLocationException e) {
 			System.out.println("Visualizer error.  Aborting.");
