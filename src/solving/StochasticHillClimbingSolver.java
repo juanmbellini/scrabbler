@@ -1,9 +1,11 @@
 package solving;
 
+import general.BoardState;
+import general.Move;
+
+import java.util.HashSet;
 import java.util.Random;
 import java.util.Set;
-
-import general.BoardState;
 
 /**
  * Class used to reach an approximate solution to the problem with a stochastic hill climbing strategy.
@@ -53,7 +55,13 @@ public class StochasticHillClimbingSolver extends TimedSolver {
 	}
 	
 	private Set<BoardState> computeNeighbors(BoardState b) {
-		return null;	//TODO
+		Set<BoardState> result = new HashSet<BoardState>();
+		for(Move movement: Helper.getPossibleMoves(b, this.getDictionary())){
+			BoardState clone = new BoardState(b);
+			b.doMove(movement);
+			result.add(clone);
+		}
+		return result;
 	}
 
 	@Override

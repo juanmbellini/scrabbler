@@ -1,5 +1,6 @@
 package solving;
 
+import utility.Dictionary;
 import general.BoardState;
 import gui.StateVisualizer;
 
@@ -8,6 +9,7 @@ import gui.StateVisualizer;
  * state and can solve the problem of finding the optimal board state with its own strategy.
  */
 public abstract class Solver {
+	private Dictionary dictionary;
 	protected BoardState best;
 	protected StateVisualizer visualizer;
 	
@@ -16,11 +18,12 @@ public abstract class Solver {
 	 * 
 	 * @param initial The starting board state.
 	 */
-	public Solver(BoardState initial, boolean visual) {
+	public Solver(BoardState initial, Dictionary dictionary ,boolean visual) {
 		best = initial;
 		if(visual) {
 			visualizer = new StateVisualizer();
 		}
+		this.dictionary = dictionary;
 	}
 	
 	/**
@@ -47,5 +50,7 @@ public abstract class Solver {
 			visualizer.print(message);
 		}
 	}
-
+	public Dictionary getDictionary() {
+		return dictionary;
+	}
 }
