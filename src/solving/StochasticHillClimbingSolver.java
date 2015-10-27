@@ -44,9 +44,8 @@ public class StochasticHillClimbingSolver extends TimedSolver {
 			double probability = 1/( 1+Math.exp( (current.getScore()-b.getScore()) )/T );
 			if(r.nextDouble() <= probability) {
 				if(b.getScore() > maxScore) {
-					//TODO CLONE BEST
-					best = b;
-					maxScore = b.getScore();
+					best = new BoardState(b);
+					maxScore = best.getScore();
 				}
 				solve(b, maxScore);
 			}

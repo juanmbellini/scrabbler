@@ -14,6 +14,10 @@ import solving.StochasticHillClimbingSolver;
 public class Main {
 	
 	public static void main(String[] args) {
+		if(args.length < 3) {
+			System.out.println("Not enough arguments. Aborting.");
+			System.exit(1);
+		}
 		String dictPath = args[0],
 			lettersPath = args[1],
 			outPath = args[2];
@@ -78,6 +82,5 @@ public class Main {
 			System.out.println(solution.toPrettyString());
 			System.exit(1);
 		}
-		//System.exit(0);
 	}
 }

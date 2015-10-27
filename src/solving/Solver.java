@@ -30,7 +30,9 @@ public abstract class Solver {
 	 */
 	public final BoardState solve() {
 		print("Initial board:\n" + best.toPrettyString());
-		return solve(best);
+		solve(best);
+		print("Optimal solution:\n" + best.toPrettyString());
+		return best;
 	}
 	
 	protected abstract BoardState solve(BoardState initial);

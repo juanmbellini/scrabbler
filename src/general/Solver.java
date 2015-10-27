@@ -59,6 +59,7 @@ public class Solver {
 	
 	private BoardState backTracking(BoardState currentBoard, BoardState bestBoard){
 		v.print(currentBoard.toPrettyString());
+		System.out.println(currentBoard.toPrettyString());
 		Set<Move> movements=Helper.getPossibleMoves(currentBoard, this.dictionary);
 		if(movements.isEmpty()){
 			if(currentBoard.getScore() > bestScore){

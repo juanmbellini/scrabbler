@@ -41,33 +41,12 @@ public class BoardState {
 	 * 
 	 * @param x The column.
 	 * @param y The row.
-	 * @return {@code true} If the specified slot is valid and there is a letter
-	 * in the specified slot.
+	 * @return {@code true} If the specified slot is NOT valid or
+	 * if it's valid and there is a letter in the specified slot.
 	 */
 	public boolean isOccupied(int x, int y) {
-		return (x >= 0 && x < SIZE)
-				&& (y >= 0 && y < SIZE)
-				&& spaces[y][x] != ' ';
-	}
-	
-	/**
-	 * Calculates the score of this board in its current state as per the rules
-	 * defined in the game.
-	 * 
-	 * @deprecated DO NOT USE. When words are added the score is automatically
-	 * recalculated. Left only in case we decide it's a better idea to use.
-	 * @return The sum of the points of all letters currently on this board.
-	 */
-	public int calculateScore() {
-		int result = 0;
-		for(char[] row : spaces) {
-			for(char c : row) {
-				if(c != ' ') {
-					result += LETTER_POINTS[c-'A'];
-				}
-			}
-		}
-		return result;
+		if(x < 0 || x >= SIZE || y < 0 || y >= SIZE) return true;
+		return spaces[y][x] != ' ';
 	}
 	
 	/**
