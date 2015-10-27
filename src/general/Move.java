@@ -2,6 +2,11 @@ package general;
 
 import general.BoardState.Direction;
 
+/**
+ * Class used to represent moves of adding new words to a board.  Since moves are
+ * constantly done and undone, moves can also store some information about the
+ * board's current state in order to restore it properly when undoing a move.
+ */
 public class Move {
 	private String word;
 	private char[] previousState;
@@ -10,6 +15,14 @@ public class Move {
 	private int score;
 	private Direction dir;
 
+        /**
+         * Constructs a new Move object with the specified information.
+         * 
+         * @param word The word to place.
+         * @param x The word's starting row.
+         * @param y The word's starting column.
+         * @param dir Right or down.
+         */
 	public Move(String word, int x, int y, Direction dir) {
 		this.word = word;
 		this.x = x;

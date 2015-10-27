@@ -107,7 +107,12 @@ public class Dictionary {
 		ConditionsQueue queue = new ConditionsQueue();
 		
 		for (WordCondition each : wordConditions) {
-			queue.enqueueCondition(each); // Exception is thrown in case there are two conditions for the same position
+                    try {
+                        queue.enqueueCondition(each); // Exception is thrown in case there are two conditions for the same position
+                    }
+                    catch(AlreadyInCollectionException e) {
+                        //Skip this
+                    }
 		}
 		
 		Set<String> result = new HashSet<String>();

@@ -1,2 +1,10 @@
 /bin/
 /.metadata/
+/nbproject/private/
+/build/
+/manifest.mf
+/nbproject/project.properties
+/nbproject/genfiles.properties
+/nbproject/build-impl.xml
+/nbproject/project.xml
+/build.xml

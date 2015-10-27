@@ -12,10 +12,8 @@ public class BoardState {
 	public static final int SIZE = 15;	//Square board
 	private char[][] spaces;
 	private int[] remainingLetters;
-	int score;
+	private int score;
 	
-	//TODO mencionar en informe que sacamos Comparable porque no era consistente con Equals
-
 	/**
 	 * Creates a new board and marks all its slots as empty.
 	 */
