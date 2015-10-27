@@ -1,5 +1,7 @@
 package general;
 
+import java.util.Arrays;
+
 /**
  * Class designed to represent the board. It contains all slots with either spaces
  * or letters.  Can perform certain logic on specific slots to help decide whether
@@ -32,8 +34,19 @@ public class BoardState {
 	 */
 	public BoardState(BoardState b) {
 		score = b.score;
-		remainingLetters = b.remainingLetters.clone();
-		spaces = b.spaces.clone();
+		remainingLetters = new int[26];
+		for (int i = 0 ; i < b.remainingLetters.length ; i++) {
+			remainingLetters[i] = b.remainingLetters[i];
+		}
+		spaces = new char[SIZE][SIZE];
+		for (int i = 0 ; i < spaces.length ; i++) {
+			for (int j = 0 ; j < spaces[i].length ; j++) {
+				spaces[i][j] = b.spaces[i][j];
+			}
+		}
+		//remainingLetters = Arrays.copyOf(b.remainingLetters, b.remainingLetters.length); //b.remainingLetters.clone();
+		//spaces = Arrays.copyOf(b.spaces, b.remainingLetters.length); //b.spaces.clone();
+		
 	}
 	
 	/**
