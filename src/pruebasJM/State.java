@@ -49,7 +49,7 @@ public class State {
 		
 		int x = movement.x, y = movement.y, i = 0;
 		
-		if (movement.direction == Directions.DOWN) {
+		/*if (movement.direction == Directions.DOWN) {
 			while(x < movement.word.length()) {	
 				if ( ((y-1) >= 0 && board[x][y-1] == ' ') || ((y+1) < SIZE && board[x][y+1] == ' ' ) ) {
 					board[x][y] = ' ';
@@ -60,7 +60,7 @@ public class State {
 			while(y < movement.word.length()) {
 				if( ((x-1) >= 0 && board[x-1][y] == ' '))
 			}	
-		}
+		}*/
 	}
 	
 	
