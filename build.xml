@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project name="Scrabbler" default="all" basedir=".">
+    
+    <target name="all" depends="compile, jar, clean" />
+    
+    <target name="clean">
+        <delete dir="build"/>
+    </target>
+
+    <target name="compile">
+        <mkdir dir="build"/>
+        <javac srcdir="src" destdir="build">
+            <exclude name="test/*" />
+            <exclude name="pruebasJM/*" />
+        </javac>
+    </target>
+
+    <target name="jar">
+        <jar destfile="tpe.jar" basedir="build">
+            <manifest>
+                <attribute name="Main-Class" value="main.Main"/>
+            </manifest>
+        </jar>
+    </target>
+    
+</project>
