@@ -88,7 +88,11 @@ public class Validator {
 				}
 				if(b.isOccupied(i, y)){
 					matches = true;
+					overlappingSpaces++;
 				}
+			}
+			if(overlappingSpaces == word.length()){
+				return false;
 			}
 			if((x > 0 && spaces[y][x-1]!=' ') || spaces[y][x+m.getWord().length()]!=' '){
 				StringBuffer wordaux = new StringBuffer();
