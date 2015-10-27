@@ -60,16 +60,16 @@ public class StochasticHillClimbingSolver extends TimedSolver {
 				possibleWords.add(each);
 			}
 		}
-		Iterator<String> it = possibleWords.iterator();
 		boolean hasMoreSolutions = true;
-		while(hasMoreSolutions && it.hasNext()){
-			String word = it.next();
-			int random =(int) r.nextDouble()*word.length();
-			Move movement = new Move(word, 7 - random,  7, Direction.RIGHT);
-			initial.doMove(movement);
-			hasMoreSolutions = solve(initial,best.getScore());
-			initial.undoMove(movement);
-		}
+		Iterator<String> it = possibleWords.iterator();
+			while(hasMoreSolutions && it.hasNext()){
+				String word = it.next();
+				int random =(int) r.nextDouble()*word.length();
+				Move movement = new Move(word, 7 - random,  7, Direction.RIGHT);
+				initial.doMove(movement);
+				hasMoreSolutions = solve(initial,best.getScore());
+				initial.undoMove(movement);
+			}
 		return best;
 	}
 	
@@ -78,9 +78,13 @@ public class StochasticHillClimbingSolver extends TimedSolver {
 			print("Time limit reached.");
 			return false;
 		}
+		if(!current.hasRemainingLetters()){
+			print("Best solution reached");
+			return false;
+		}
 		print(current.toPrettyString());
 		Set<BoardState> neighbors = computeNeighbors(current);
-		if(!current.hasRemainingLetters() || neighbors.isEmpty()) {
+		if(neighbors.isEmpty()) {
 			print("No more moves from here.");
 			return true;
 		}

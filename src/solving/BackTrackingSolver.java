@@ -75,7 +75,7 @@ public class BackTrackingSolver extends Solver {
 				best = new BoardState(initial);
 				print("NEW MAX SCORE: " + best.getScore() + "\n");
 				try {
-					Thread.sleep(2000);
+					Thread.sleep(1000);
 				}
 				catch(InterruptedException e) {}
 			}

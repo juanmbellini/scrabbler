@@ -1,15 +1,13 @@
 package pruebasJM;
 
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
-
 import general.BoardState;
 import general.Move;
+
+import java.util.Collection;
+
 import solving.Helper;
 import solving.Solver;
 import utility.Dictionary;
-import utility.WordCondition;
 
 public class BackTrackingSolver extends Solver {
 	

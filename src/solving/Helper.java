@@ -3,7 +3,6 @@ package solving;
 import general.BoardState;
 import general.BoardState.Direction;
 import general.Move;
-import general.PossibleWordsIterator;
 import general.Validator;
 
 import java.util.Collection;
@@ -26,7 +25,6 @@ public class Helper {
 			return result;	//No moves, return empty result
 		}
 		char[][] spaces = boardState.getSpaces();
-		int[] remainingLetters = boardState.getRemainingLetters();
 		
 		for (int y = 0; y < spaces.length; y++) {
 			
@@ -124,29 +122,6 @@ public class Helper {
 		return result;
 	}
 	
-	private static Set<Move> getMovesAt(int x, int y, BoardState b, PossibleWordsIterator w) {
-		Set<Move> result = new HashSet<>();
-		//In which direction can the new word go? Assume down, change if necessary
-		//TODO verify direction choice
-		Direction dir = Direction.DOWN;
-		if(b.isOccupied(x, y-1) || b.isOccupied(x, y+1) || (y + 1 >= BoardState.SIZE) ) {
-			dir = Direction.RIGHT;
-		}
-		while(w.hasNext()) {
-			String word = w.next();
-			for(int i : getCombinationIndeces(word, b.getSpaces()[y][x])) {
-				Move potentialMove = new Move(
-											//TODO verify offsets work
-											word,
-											(dir == Direction.RIGHT ? x-i : x),
-											(dir == Direction.DOWN ? y-i : y),
-											dir);
-				if(Validator.isValidMovement(potentialMove, b)) {
-					result.add(potentialMove);
-				}
-			}
-		}
-		return result;
-	}
+
 
 }
