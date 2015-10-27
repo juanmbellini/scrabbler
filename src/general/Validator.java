@@ -29,9 +29,11 @@ public class Validator {
 		if(!isWithinBounds(b, m) || !boardHasEnoughLettersFor(b, m)) {
 			return false;
 		}
+		boolean matches = false;;
 		if(m.getDirection() == Direction.DOWN) {
 			for(int i=y, letterCounter = 0; i < y + word.length(); i++, letterCounter++){   		//se fija si 
 				if(b.isOccupied(x-1, i) || b.isOccupied(x+1, i)){ //no forma palabras nuevas y si lo 
+					matches = true;
 					StringBuffer wordaux= new StringBuffer(word.charAt(letterCounter));	//hace las checkea y se fija que exista
 					for(int j = x - 1; j > 0 && spaces[i][j]!=' '; j--){
 						wordaux.append(spaces[i][j]);
@@ -43,6 +45,9 @@ public class Validator {
 					if(!dictionary.contains(wordaux.toString())){
 						return false;
 					}
+				}
+				if(b.isOccupied(x, i)){
+					matches = true;
 				}
 			}
 			if((y > 0 && spaces[y-1][x]!=' ') || spaces[y+m.getWord().length()][x]!=' '){
@@ -66,6 +71,7 @@ public class Validator {
 		else{
 			for(int i=x , letterCounter = 0; i < x + word.length(); i++, letterCounter++){
 				if(b.isOccupied(i, y-1) || b.isOccupied(i, y+1)){
+					matches = true;
 					StringBuffer wordaux= new StringBuffer(word.charAt(letterCounter));
 					for(int j = y - 1; j > 0 && spaces[j][i]!=' '; j--){
 						wordaux.append(spaces[j][i]);
@@ -77,6 +83,9 @@ public class Validator {
 					if(!dictionary.contains(wordaux.toString())){
 						return false;
 					}
+				}
+				if(b.isOccupied(i, y)){
+					matches = true;
 				}
 			}
 			if((x > 0 && spaces[y][x-1]!=' ') || spaces[y][x+m.getWord().length()]!=' '){
@@ -96,6 +105,9 @@ public class Validator {
 					return false;
 				}
 			}
+		}
+		if(matches == false){
+			return false;
 		}
 		return true;		
 	}
