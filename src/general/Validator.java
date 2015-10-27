@@ -75,7 +75,7 @@ public class Validator {
 			}
 		}
 		else{
-			for(int i=x , letterCounter = 0; i < x + word.length(); i++, letterCounter++){
+			for(int i=x; i < x + word.length(); i++){
 				if(b.isOccupied(i, y-1) || b.isOccupied(i, y+1)){
 					matches = true;
 					StringBuffer wordaux= new StringBuffer();
