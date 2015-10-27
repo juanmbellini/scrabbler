@@ -20,7 +20,7 @@ public class Helper {
     /**
      * Computes all the possible moves from a given board state and a dictionary
      * of valid words.
-     * 
+     *
      * @param boardState The starting board state.
      * @param dictionary The set of valid words to play.
      * @return A set of valid moves that can be carried out from the specified
@@ -34,13 +34,9 @@ public class Helper {
         
         char[][] spaces = boardState.getSpaces();
         for (int y = 0; y < spaces.length; y++) {
-            
             for (int x = 0; x < spaces[y].length; x++) {
-                
                 if(isValidRange(boardState, x, y, Direction.RIGHT)) {
-                    
                     Collection<String> words = dictionary.giveMeWords(getWordConditions(boardState,x,y,1,0));
-                    
                     for(String word : words) {
                         Move move = new Move(word, x, y, Direction.RIGHT);
                         if(Validator.isValidMovement(move, boardState)){
@@ -48,7 +44,6 @@ public class Helper {
                         }
                     }
                 }
-                
                 if(isValidRange(boardState, x, y, Direction.DOWN)){
                     for(String word : dictionary.giveMeWords(getWordConditions(boardState,x,y,0,1))){
                         Move move = new Move(word, x, y, Direction.DOWN);
@@ -110,25 +105,4 @@ public class Helper {
         }
         return tokens;
     }
-    
-    /**
-     * Gets all the indices in which the given String can combine with the
-     * specified character (part of another word)
-     *
-     * @param s The string to insert.
-     * @param c The character to combine with.
-     * @return A set of ints containing all combination indices.
-     */
-    public static Set<Integer> getCombinationIndeces(String s, char c) {
-        Set<Integer> result = new HashSet<>();
-        for(int i = 0; i < s.length(); i++) {
-            if(s.charAt(i) == c) {
-                result.add(i);
-            }
-        }
-        return result;
-    }
-    
-    
-    
 }
