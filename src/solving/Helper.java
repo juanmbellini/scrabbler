@@ -19,15 +19,9 @@ import utility.WordCondition;
 public class Helper {
 
 	public static Set<Move> getPossibleMoves(BoardState b, Dictionary dictionary) {
-		boolean flag = true;
 		Set<Move> result = new HashSet<>();	//TODO order by score?
-		for(int i=0; i<b.getRemainingLetters().length && flag;i++){
-			if(b.getRemainingLetters()[i]!=0){
-				flag=false;
-			}
-		} 	
-		if(flag == true){
-			return result;
+		if(!b.hasRemainingLetters()) {
+			return result;	//No moves, return empty result
 		}
 		char[][] spaces = b.getSpaces();
 		int[] remainingLetters = b.getRemainingLetters();

@@ -1,9 +1,11 @@
 package main;
 
 import java.io.IOException;
+import java.util.HashSet;
 import java.util.Set;
 
 import general.BoardState;
+import general.Validator;
 import io.FileProcessor;
 import solving.BackTrackingSolver;
 import solving.Solver;
@@ -61,9 +63,12 @@ public class Main {
 		}
 		//BoardState solution = solver.solve(); TODO uncomment
 		general.Solver s = new general.Solver(new utility.Dictionary());
+		Set<String> uglyDict = new HashSet<String>();
 		for(String s2 : dictionary) {
 			s.getDictionary().addWord(s2);
+			uglyDict.add(s2);
 		}
+		Validator.setDictionary(uglyDict);
 		BoardState solution = s.backTracking(s.getDictionary(), letters);
 		try {
 			FileProcessor.writeOutputFile(solution, outPath);

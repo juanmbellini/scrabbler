@@ -211,19 +211,19 @@ public class BoardState {
 			y = m.getY(),
 			score = 0;
 		StringBuilder b = new StringBuilder(m.getWord().length()),
-			addedLetters = new StringBuilder(b.length());
-		for(int i = 0; i < b.length(); i++) {
+			addedLetters = new StringBuilder(m.getWord().length());
+		for(int i = 0; i < m.getWord().length(); i++) {
 			char c = spaces[y][x];
 			b.append(c);						//Store board spaces before playing this move
 			if(c == ' ') {
-				score += LETTER_POINTS[c-'A'];	//Calculate score added by playing this move
-				addedLetters.append(c);			//Store letters NOT already on the board
+				score += LETTER_POINTS[m.getWord().charAt(i)-'A'];	//Calculate score added by playing this move
+				addedLetters.append(m.getWord().charAt(i));			//Store letters NOT already on the board
 			}
 			x += deltaX;
 			y += deltaY;
 		}
 		m.setPreviousState(b.toString().toCharArray());
-		m.setAddedLetters(b.toString().toCharArray());
+		m.setAddedLetters(addedLetters.toString().toCharArray());
 		m.setScore(score);
 	}
 	

@@ -44,7 +44,7 @@ public class Solver {
 		bestScore = bestBoard.getScore();
 		for(String word:dictionary.giveMeWords(new HashSet<WordCondition>())){
 			for(int i=0 ; i<word.length(); i++){
-				Move movement = new Move(word, 7 - i, 7, Direction.RIGHT);
+				Move movement = new Move(word, 6 - i, 6, Direction.RIGHT);
 				board.doMove(movement);
 				result = backTracking(board, bestBoard);
 				if(result.getScore() > bestBoard.getScore()){

@@ -148,7 +148,7 @@ public class Validator {
 	public static boolean boardHasEnoughLettersFor(BoardState b, Move m) {
 		int deltaX = m.getDirection() == Direction.RIGHT ? 1 : 0,
 				deltaY = m.getDirection() == Direction.DOWN ? 1 : 0;
-		int[] remainingLetters = b.getRemainingLetters();	//Start with how many remaining letters the board has
+		int[] remainingLetters = b.getRemainingLetters().clone();	//TODO optimize? Start with how many remaining letters the board has
 		char[][] spaces = b.getSpaces();
 		for(int x = m.getX(), y = m.getY(), i = 0; i < m.getWord().length(); i++) {	//Add any letters available in the move slots
 			if(spaces[y][x] != ' ') {
