@@ -21,14 +21,14 @@ public class StochasticHillClimbingSolver extends TimedSolver {
 	private Random r;
 	private int T;
 	
-	public StochasticHillClimbingSolver(Dictionary dictionary, int[] startingLetters, boolean visual, int T) {
-		super(dictionary, startingLetters, visual);
+	public StochasticHillClimbingSolver(Dictionary dictionary, int[] startingLetters, boolean visual, int T , long timeLimit) {
+		super(dictionary, startingLetters, visual, timeLimit);
 		r = new Random();
 		this.T = T;
 	}
 
-	public StochasticHillClimbingSolver(Dictionary dictionary, int[] startingLetters, boolean visual) {
-		this(dictionary, startingLetters, visual, OPTIMAL_T);
+	public StochasticHillClimbingSolver(Dictionary dictionary, int[] startingLetters, boolean visual, long timeLimit) {
+		this(dictionary, startingLetters, visual, OPTIMAL_T, timeLimit);
 	}
 
 	@Override
@@ -101,7 +101,7 @@ public class StochasticHillClimbingSolver extends TimedSolver {
 		Set<BoardState> result = new HashSet<BoardState>();
 		for(Move movement: Helper.getPossibleMoves(b, this.getDictionary())){
 			BoardState clone = new BoardState(b);
-			b.doMove(movement);
+			clone.doMove(movement);
 			result.add(clone);
 		}
 		return result;

@@ -10,7 +10,7 @@ import utility.Dictionary;
 public abstract class TimedSolver extends Solver {
 	protected long timeLimit, endTime;
 	
-	public TimedSolver(Dictionary dictionary, int[] startingLetters, boolean visual) {
+	public TimedSolver(Dictionary dictionary, int[] startingLetters, boolean visual, long timeLimit) {
 		super(dictionary, startingLetters, visual);
 		this.timeLimit = timeLimit;
 	}

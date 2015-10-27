@@ -1,12 +1,12 @@
 package main;
 
-import java.io.IOException;
-import java.util.HashSet;
-import java.util.Set;
-
 import general.BoardState;
 import general.Validator;
 import io.FileProcessor;
+
+import java.io.IOException;
+import java.util.Set;
+
 import solving.BackTrackingSolver;
 import solving.Solver;
 import solving.StochasticHillClimbingSolver;
@@ -66,8 +66,9 @@ public class Main {
 			dict.addWord(word);
 		}
 		Validator.setDictionary(dict);
+		maxTime = 6000;
 		if(maxTime > 0) {
-			solver = new StochasticHillClimbingSolver(dict, letters, visual);
+			solver = new StochasticHillClimbingSolver(dict, letters, visual, maxTime);
 		}
 		else {
 			solver = new BackTrackingSolver(dict, letters, visual);
